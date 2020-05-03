@@ -1,0 +1,28 @@
+# The set of languages for which implicit dependencies are needed:
+set(CMAKE_DEPENDS_LANGUAGES
+  "CXX"
+  )
+# The set of files for implicit dependencies of each language:
+set(CMAKE_DEPENDS_CHECK_CXX
+  "/Users/krystynalosieczka/CLionProjects/SO2P/Barman.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Barman.cpp.o"
+  "/Users/krystynalosieczka/CLionProjects/SO2P/Client.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Client.cpp.o"
+  "/Users/krystynalosieczka/CLionProjects/SO2P/Cook.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Cook.cpp.o"
+  "/Users/krystynalosieczka/CLionProjects/SO2P/Glass.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Glass.cpp.o"
+  "/Users/krystynalosieczka/CLionProjects/SO2P/Knife.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Knife.cpp.o"
+  "/Users/krystynalosieczka/CLionProjects/SO2P/Supplier.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Supplier.cpp.o"
+  "/Users/krystynalosieczka/CLionProjects/SO2P/Toilet.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Toilet.cpp.o"
+  "/Users/krystynalosieczka/CLionProjects/SO2P/Waiter.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Waiter.cpp.o"
+  "/Users/krystynalosieczka/CLionProjects/SO2P/main.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/main.cpp.o"
+  )
+set(CMAKE_CXX_COMPILER_ID "AppleClang")
+
+# The include file search paths:
+set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  )
+
+# Targets to which this target links.
+set(CMAKE_TARGET_LINKED_INFO_FILES
+  )
+
+# Fortran module output directory.
+set(CMAKE_Fortran_TARGET_MODULE_DIR "")

@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/krystynalosieczka/CLionProjects/SO2P/Barman.cpp
+Barman.h
+/Users/krystynalosieczka/CLionProjects/SO2P/Barman.h
+mutex
+-
+
+/Users/krystynalosieczka/CLionProjects/SO2P/Barman.h
+array
+-
+Glass.h
+/Users/krystynalosieczka/CLionProjects/SO2P/Glass.h
+thread
+-
+random
+-
+
+/Users/krystynalosieczka/CLionProjects/SO2P/Glass.h
+
+/Users/krystynalosieczka/CLionProjects/SO2P/main.cpp
+Glass.h
+/Users/krystynalosieczka/CLionProjects/SO2P/Glass.h
+Barman.h
+/Users/krystynalosieczka/CLionProjects/SO2P/Barman.h
+array
+-
+iostream
+-
+
