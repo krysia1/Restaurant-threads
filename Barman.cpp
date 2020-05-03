@@ -19,6 +19,7 @@ void Barman::checkGlasses() {
     }
     if(dirtyGlasses > 1){
         askToClean = true;
+        state = 1; //stan na czekanie na wyczyszczenie szklanek
     }
 
 }
@@ -29,6 +30,7 @@ void Barman::tryGlasses(){
             if(!allGlasses[i].dirty) {
                 if (!allGlasses[i].taken) {
                     allGlasses[i].taken = true;
+                    allGlasses[i].state = 2; //stan na używany
                     pickedGlasses++;
                     for (int j = 0; j < NUMOFGLASSES; j++) {
                         if (i == j) {
@@ -39,6 +41,7 @@ void Barman::tryGlasses(){
                             if (!allGlasses[j].dirty) {
                                 if (!allGlasses[j].taken) {
                                     allGlasses[j].taken = true;
+                                    allGlasses[j].state = 2; //stan na używany
                                     pickedGlasses++;
                                 } else {
                                     allGlasses[j].glassMutex.unlock();
@@ -70,6 +73,7 @@ void Barman::serveDrunkard() {
         for(int i=0; i<NUMOFGLASSES; i++) {
             if (allGlasses[i].taken){
                 allGlasses[i].taken = false;
+                allGlasses[i].state = 0; //stan na czysty
             }
         }
 
@@ -81,9 +85,11 @@ void Barman::serveDrunkard() {
         for(int i=0; i<NUMOFGLASSES; i++) {
             if (allGlasses[i].taken){
                 allGlasses[i].dirty = true;
+
             }
         }
 
+        state = 3; //stan na obsługę pijaka
 
         int part = std::uniform_int_distribution<int>(25, 35)(rng);
         for (auto i = 1; i <= part; i++) {
@@ -95,6 +101,7 @@ void Barman::serveDrunkard() {
 
         for(int i=0; i<NUMOFGLASSES; i++){
             if (allGlasses[i].dirty){
+                allGlasses[i].state = 1; //stan na brudny
                 allGlasses[i].glassMutex.unlock();
             }
         }
@@ -106,6 +113,7 @@ void Barman::serveDrunkard() {
 
 
 void Barman::rest(){
+    state = 2; //stan na odpoczywanie
     int part = std::uniform_int_distribution<int>(25,35)(rng);
     for(auto i=1; i<=part; i++){
         double p = (double)i / (double)part;
@@ -115,7 +123,7 @@ void Barman::rest(){
 }
 
 
-void Barman::checkCounter(bool counterIsEmpty) {
+void Barman::checkCounter() {
     while(!exit) {
         for (int i = 0; i < COUNTERCAPACITY; i++) {
             if (counter[i].try_lock()) {
@@ -146,4 +154,3 @@ void Barman::checkCounter(bool counterIsEmpty) {
 }
 
 
-Barman::Barman(Glass (&glassArray)[NUMOFGLASSES]) : allGlasses(glassArray), barmanThread(&Barman::checkCounter, this) {}

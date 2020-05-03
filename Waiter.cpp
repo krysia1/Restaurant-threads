@@ -13,4 +13,3 @@ void Waiter::clean(){
 }
 
 
-Waiter::Waiter(Barman &barman) : barman(barman), waiterThread(&Waiter::work,this) {}

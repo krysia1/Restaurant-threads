@@ -8,7 +8,6 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/krystynalosieczka/CLionProjects/SO2P/Client.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Client.cpp.o"
   "/Users/krystynalosieczka/CLionProjects/SO2P/Cook.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Cook.cpp.o"
   "/Users/krystynalosieczka/CLionProjects/SO2P/Glass.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Glass.cpp.o"
-  "/Users/krystynalosieczka/CLionProjects/SO2P/Knife.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Knife.cpp.o"
   "/Users/krystynalosieczka/CLionProjects/SO2P/Supplier.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Supplier.cpp.o"
   "/Users/krystynalosieczka/CLionProjects/SO2P/Toilet.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Toilet.cpp.o"
   "/Users/krystynalosieczka/CLionProjects/SO2P/Waiter.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Waiter.cpp.o"

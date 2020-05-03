@@ -14,9 +14,6 @@ CMakeFiles/SO2P.dir/Cook.cpp.o
 CMakeFiles/SO2P.dir/Glass.cpp.o
  /Users/krystynalosieczka/CLionProjects/SO2P/Glass.cpp
  /Users/krystynalosieczka/CLionProjects/SO2P/Glass.h
-CMakeFiles/SO2P.dir/Knife.cpp.o
- /Users/krystynalosieczka/CLionProjects/SO2P/Knife.cpp
- /Users/krystynalosieczka/CLionProjects/SO2P/Knife.h
 CMakeFiles/SO2P.dir/Supplier.cpp.o
  /Users/krystynalosieczka/CLionProjects/SO2P/Supplier.cpp
  /Users/krystynalosieczka/CLionProjects/SO2P/Supplier.h
@@ -24,6 +21,8 @@ CMakeFiles/SO2P.dir/Toilet.cpp.o
  /Users/krystynalosieczka/CLionProjects/SO2P/Toilet.cpp
  /Users/krystynalosieczka/CLionProjects/SO2P/Toilet.h
 CMakeFiles/SO2P.dir/Waiter.cpp.o
+ /Users/krystynalosieczka/CLionProjects/SO2P/Barman.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Glass.h
  /Users/krystynalosieczka/CLionProjects/SO2P/Waiter.cpp
  /Users/krystynalosieczka/CLionProjects/SO2P/Waiter.h
 CMakeFiles/SO2P.dir/main.cpp.o

@@ -24,11 +24,13 @@ public:
     int progress;
     std::mt19937 rng{std::random_device{}()};
     bool askToClean = false;
+    int state = 0; //na początku stan na czekanie
 
 
-    Barman(Glass (&glassArray)[NUMOFGLASSES]);
+    Barman(Glass (&glassArray)[NUMOFGLASSES])
+        : allGlasses(glassArray), barmanThread(&Barman::checkCounter, this) {}
 
-    void checkCounter( bool counterIsEmpty);
+    void checkCounter();
     void serveDrunkard();
     void tryGlasses();
     void checkGlasses();

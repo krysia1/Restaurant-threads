@@ -231,33 +231,6 @@ Glass.cpp.s:
 	$(MAKE) -f CMakeFiles/SO2P.dir/build.make CMakeFiles/SO2P.dir/Glass.cpp.s
 .PHONY : Glass.cpp.s
 
-Knife.o: Knife.cpp.o
-
-.PHONY : Knife.o
-
-# target to build an object file
-Knife.cpp.o:
-	$(MAKE) -f CMakeFiles/SO2P.dir/build.make CMakeFiles/SO2P.dir/Knife.cpp.o
-.PHONY : Knife.cpp.o
-
-Knife.i: Knife.cpp.i
-
-.PHONY : Knife.i
-
-# target to preprocess a source file
-Knife.cpp.i:
-	$(MAKE) -f CMakeFiles/SO2P.dir/build.make CMakeFiles/SO2P.dir/Knife.cpp.i
-.PHONY : Knife.cpp.i
-
-Knife.s: Knife.cpp.s
-
-.PHONY : Knife.s
-
-# target to generate assembly for a file
-Knife.cpp.s:
-	$(MAKE) -f CMakeFiles/SO2P.dir/build.make CMakeFiles/SO2P.dir/Knife.cpp.s
-.PHONY : Knife.cpp.s
-
 Supplier.o: Supplier.cpp.o
 
 .PHONY : Supplier.o
@@ -387,9 +360,6 @@ help:
 	@echo "... Glass.o"
 	@echo "... Glass.i"
 	@echo "... Glass.s"
-	@echo "... Knife.o"
-	@echo "... Knife.i"
-	@echo "... Knife.s"
 	@echo "... Supplier.o"
 	@echo "... Supplier.i"
 	@echo "... Supplier.s"

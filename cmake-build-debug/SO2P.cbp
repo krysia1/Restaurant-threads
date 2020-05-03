@@ -104,12 +104,6 @@
 		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Glass.h">
 			<Option target="SO2P"/>
 		</Unit>
-		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Knife.cpp">
-			<Option target="SO2P"/>
-		</Unit>
-		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Knife.h">
-			<Option target="SO2P"/>
-		</Unit>
 		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Supplier.cpp">
 			<Option target="SO2P"/>
 		</Unit>

@@ -17,7 +17,8 @@ public:
     std::mutex waiterMutex;
     std::thread waiterThread;
 
-    Waiter(Barman &barman);
+    Waiter(Barman &barman)
+        : barman(barman), waiterThread(&Waiter::work,this) {}
 
     void work();
     void clean();

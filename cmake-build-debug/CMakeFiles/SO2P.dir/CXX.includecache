@@ -23,4 +23,30 @@ random
 -
 
 /Users/krystynalosieczka/CLionProjects/SO2P/Glass.h
+mutex
+-
+
+/Users/krystynalosieczka/CLionProjects/SO2P/Waiter.cpp
+Waiter.h
+/Users/krystynalosieczka/CLionProjects/SO2P/Waiter.h
+thread
+-
+
+/Users/krystynalosieczka/CLionProjects/SO2P/Waiter.h
+mutex
+-
+Barman.h
+/Users/krystynalosieczka/CLionProjects/SO2P/Barman.h
+
+/Users/krystynalosieczka/CLionProjects/SO2P/main.cpp
+Glass.h
+/Users/krystynalosieczka/CLionProjects/SO2P/Glass.h
+Barman.h
+/Users/krystynalosieczka/CLionProjects/SO2P/Barman.h
+array
+-
+iostream
+-
+mutex
+-
 

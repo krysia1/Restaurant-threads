@@ -11,6 +11,7 @@ public:
     int glassId;
     bool taken = false;
     bool dirty = false;
+    int state = 0; //stan na początku na czysty
     std::mutex glassMutex;
 
 };
