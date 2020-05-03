@@ -17,19 +17,22 @@ public:
 
     Glass (&allGlasses)[NUMOFGLASSES];  //referencja na liste szklanek
     int pickedGlasses = 0;  //liczba trzymanych przez barmana szklanek
+    int dirtyGlasses = 0; //liczba brudnych szklanek
     bool counterIsEmpty = true; //zmienna do sprawdzania, czy jest ktoś do obsłużenia przy kontuarze
     std::thread barmanThread;   //wątek barmana
     bool exit = false; //czy kończymy program
     int progress;
     std::mt19937 rng{std::random_device{}()};
+    bool askToClean = false;
 
 
     Barman(Glass (&glassArray)[NUMOFGLASSES]);
 
     void checkCounter( bool counterIsEmpty);
     void serveDrunkard();
+    void tryGlasses();
     void checkGlasses();
-    void live();
+    void rest();
 };
 
 #endif //SO2P_BARMAN_H

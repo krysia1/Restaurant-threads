@@ -6,14 +6,14 @@
 
 #include <array>
 #include <iostream>
+#include <mutex>
 
 
 #define NUMOFGLASSES 3
 
-
+std::mutex knifeMutex;
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
 
     std::array<Glass, NUMOFGLASSES> glasses;
 

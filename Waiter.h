@@ -5,15 +5,22 @@
 #define SO2P_WAITER_H
 
 #include <mutex>
+#include "Barman.h"
 
 
 class Waiter {
 public:
     int waiterId;
     bool inService = false;
+    Barman &barman;
 
     std::mutex waiterMutex;
+    std::thread waiterThread;
 
+    Waiter(Barman &barman);
+
+    void work();
+    void clean();
 };
 
 
