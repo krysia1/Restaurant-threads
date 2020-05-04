@@ -204,33 +204,6 @@ Cook.cpp.s:
 	$(MAKE) -f CMakeFiles/SO2P.dir/build.make CMakeFiles/SO2P.dir/Cook.cpp.s
 .PHONY : Cook.cpp.s
 
-Glass.o: Glass.cpp.o
-
-.PHONY : Glass.o
-
-# target to build an object file
-Glass.cpp.o:
-	$(MAKE) -f CMakeFiles/SO2P.dir/build.make CMakeFiles/SO2P.dir/Glass.cpp.o
-.PHONY : Glass.cpp.o
-
-Glass.i: Glass.cpp.i
-
-.PHONY : Glass.i
-
-# target to preprocess a source file
-Glass.cpp.i:
-	$(MAKE) -f CMakeFiles/SO2P.dir/build.make CMakeFiles/SO2P.dir/Glass.cpp.i
-.PHONY : Glass.cpp.i
-
-Glass.s: Glass.cpp.s
-
-.PHONY : Glass.s
-
-# target to generate assembly for a file
-Glass.cpp.s:
-	$(MAKE) -f CMakeFiles/SO2P.dir/build.make CMakeFiles/SO2P.dir/Glass.cpp.s
-.PHONY : Glass.cpp.s
-
 Supplier.o: Supplier.cpp.o
 
 .PHONY : Supplier.o
@@ -357,9 +330,6 @@ help:
 	@echo "... Cook.o"
 	@echo "... Cook.i"
 	@echo "... Cook.s"
-	@echo "... Glass.o"
-	@echo "... Glass.i"
-	@echo "... Glass.s"
 	@echo "... Supplier.o"
 	@echo "... Supplier.i"
 	@echo "... Supplier.s"

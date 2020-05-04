@@ -4,9 +4,6 @@
 #include "Barman.h"
 #include <mutex>
 
-std::mutex counter[COUNTERCAPACITY]; //miejsca przy kontuarze jako mutexy
-std::mutex servedDrunkard;      //aktualnie obsługiwany pijak
-
 
 //todo
 //add status to show with ncurses

@@ -6,7 +6,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/SO2P.dir/Barman.cpp.o"
   "CMakeFiles/SO2P.dir/Client.cpp.o"
   "CMakeFiles/SO2P.dir/Toilet.cpp.o"
-  "CMakeFiles/SO2P.dir/Glass.cpp.o"
   "SO2P.pdb"
   "SO2P"
 )

@@ -5,20 +5,33 @@
 #define SO2P_CLIENT_H
 
 #include <random>
+#include <thread>
+
+#include "Barman.h"
 
 class Client{
 public:
     int clientId;
     std::mt19937 rng{std::random_device{}()};   //generator liczb losowych - do losowania czy klient czy pijak
+    std::thread clientThread;
+
+
+
+    Client(int const clientId)
+    : clientId(clientId), clientThread(&Client::visitRestaurant, this){}
 
     void takeASeat();
     void eat();
-    void pay();
     void useToilet();
-    void leave();
 
     void seatByTheCounter();
     void drink();
+
+    void pay();
+    void leave();
+
+    void visitRestaurant();
+
 };
 
 

@@ -11,9 +11,6 @@ CMakeFiles/SO2P.dir/Client.cpp.o: ../Client.h
 CMakeFiles/SO2P.dir/Cook.cpp.o: ../Cook.cpp
 CMakeFiles/SO2P.dir/Cook.cpp.o: ../Cook.h
 
-CMakeFiles/SO2P.dir/Glass.cpp.o: ../Glass.cpp
-CMakeFiles/SO2P.dir/Glass.cpp.o: ../Glass.h
-
 CMakeFiles/SO2P.dir/Supplier.cpp.o: ../Supplier.cpp
 CMakeFiles/SO2P.dir/Supplier.cpp.o: ../Supplier.h
 
@@ -26,6 +23,9 @@ CMakeFiles/SO2P.dir/Waiter.cpp.o: ../Waiter.cpp
 CMakeFiles/SO2P.dir/Waiter.cpp.o: ../Waiter.h
 
 CMakeFiles/SO2P.dir/main.cpp.o: ../Barman.h
+CMakeFiles/SO2P.dir/main.cpp.o: ../Client.h
+CMakeFiles/SO2P.dir/main.cpp.o: ../Cook.h
 CMakeFiles/SO2P.dir/main.cpp.o: ../Glass.h
+CMakeFiles/SO2P.dir/main.cpp.o: ../Waiter.h
 CMakeFiles/SO2P.dir/main.cpp.o: ../main.cpp
 

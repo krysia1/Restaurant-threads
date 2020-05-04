@@ -12,6 +12,9 @@
 #define COUNTERCAPACITY 3
 #define NUMOFGLASSES 3
 
+std::mutex counter[COUNTERCAPACITY]; //miejsca przy kontuarze jako mutexy
+std::mutex servedDrunkard;      //aktualnie obsługiwany pijak
+
 class Barman{
 public:
 

@@ -98,9 +98,6 @@
 		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Cook.h">
 			<Option target="SO2P"/>
 		</Unit>
-		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Glass.cpp">
-			<Option target="SO2P"/>
-		</Unit>
 		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Glass.h">
 			<Option target="SO2P"/>
 		</Unit>
