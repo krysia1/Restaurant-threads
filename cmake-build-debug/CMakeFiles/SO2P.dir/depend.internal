@@ -4,21 +4,44 @@
 CMakeFiles/SO2P.dir/Barman.cpp.o
  /Users/krystynalosieczka/CLionProjects/SO2P/Barman.cpp
  /Users/krystynalosieczka/CLionProjects/SO2P/Barman.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Client.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Cook.h
  /Users/krystynalosieczka/CLionProjects/SO2P/Glass.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Waiter.h
 CMakeFiles/SO2P.dir/Client.cpp.o
+ /Users/krystynalosieczka/CLionProjects/SO2P/Barman.h
  /Users/krystynalosieczka/CLionProjects/SO2P/Client.cpp
  /Users/krystynalosieczka/CLionProjects/SO2P/Client.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Cook.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Glass.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Waiter.h
 CMakeFiles/SO2P.dir/Cook.cpp.o
+ /Users/krystynalosieczka/CLionProjects/SO2P/Barman.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Client.h
  /Users/krystynalosieczka/CLionProjects/SO2P/Cook.cpp
  /Users/krystynalosieczka/CLionProjects/SO2P/Cook.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Glass.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Waiter.h
 CMakeFiles/SO2P.dir/Supplier.cpp.o
+ /Users/krystynalosieczka/CLionProjects/SO2P/Barman.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Client.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Cook.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Glass.h
  /Users/krystynalosieczka/CLionProjects/SO2P/Supplier.cpp
  /Users/krystynalosieczka/CLionProjects/SO2P/Supplier.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Waiter.h
 CMakeFiles/SO2P.dir/Toilet.cpp.o
+ /Users/krystynalosieczka/CLionProjects/SO2P/Barman.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Client.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Cook.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Glass.h
  /Users/krystynalosieczka/CLionProjects/SO2P/Toilet.cpp
  /Users/krystynalosieczka/CLionProjects/SO2P/Toilet.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Waiter.h
 CMakeFiles/SO2P.dir/Waiter.cpp.o
  /Users/krystynalosieczka/CLionProjects/SO2P/Barman.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Client.h
+ /Users/krystynalosieczka/CLionProjects/SO2P/Cook.h
  /Users/krystynalosieczka/CLionProjects/SO2P/Glass.h
  /Users/krystynalosieczka/CLionProjects/SO2P/Waiter.cpp
  /Users/krystynalosieczka/CLionProjects/SO2P/Waiter.h

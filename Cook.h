@@ -4,6 +4,8 @@
 #ifndef SO2P_COOK_H
 #define SO2P_COOK_H
 
+#include "Barman.h"
+
 class Cook {
 public:
     int cookId;

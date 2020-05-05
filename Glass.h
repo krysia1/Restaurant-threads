@@ -4,6 +4,8 @@
 #ifndef SO2P_GLASS_H
 #define SO2P_GLASS_H
 
+#include "Barman.h"
+
 #include <mutex>
 
 class Glass{

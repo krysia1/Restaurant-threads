@@ -15,15 +15,24 @@
 #include <memory>
 
 
+#define COUNTERCAPACITY 3
 #define NUMOFGLASSES 3
+
+#define RESTAURANTCAPACITY 10
+
 #define NUMOFCLIENTS 5
 #define NUMOFWAITERS 3
+
 
 std::vector<Waiter *> waiters;
 std::vector<Client *> clients;
 std::vector<Cook *> cooks;
 
+std::mutex restaurantTables[RESTAURANTCAPACITY]; //miejsca przy stolikach jako mutexy
+
 std::mutex knifeMutex;
+
+
 
 bool stop = false;
 
@@ -38,10 +47,10 @@ int main() {
         glasses.at(i).glassId = i+1;
     }
 
-    for (auto i=0; i<NUMOFCLIENTS; i++){
-        Client *c = new Client (i);
-        clients.push_back(c);
-    }
+//    for (auto i=0; i<NUMOFCLIENTS; i++){
+//        Client *c = new Client (i);
+//        clients.push_back(c);
+//    }
 
 //    for (auto i=0; i<NUMOFWAITERS; i++){
 //        Waiter *w = new Waiter ();

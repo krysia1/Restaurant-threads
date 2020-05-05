@@ -5,6 +5,14 @@
 #include <mutex>
 
 
+#define NUMOFGLASSES 3
+#define COUNTERCAPACITY 3
+
+
+std::mutex counter[COUNTERCAPACITY]; //miejsca przy kontuarze jako mutexy
+std::mutex servedDrunkard;      //aktualnie obsługiwany pijak
+
+
 //todo
 //add status to show with ncurses
 
@@ -121,7 +129,7 @@ void Barman::rest(){
 
 
 void Barman::checkCounter() {
-    while(!exit) {
+    while(!exitBarman) {
         for (int i = 0; i < COUNTERCAPACITY; i++) {
             if (counter[i].try_lock()) {
                 counter[i].unlock();
@@ -149,5 +157,7 @@ void Barman::checkCounter() {
     }
 
 }
+
+Barman::Barman(Glass (&allGlasses)[3] ) : allGlasses(allGlasses) {}
 
 

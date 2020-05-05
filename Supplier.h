@@ -5,6 +5,8 @@
 #ifndef SO2P_SUPPLIER_H
 #define SO2P_SUPPLIER_H
 
+#include "Barman.h"
+
 class Supplier {
 public:
     void bringSupplies();

@@ -5,18 +5,23 @@
 #define SO2P_WAITER_H
 
 #include <mutex>
+#include <thread>
+#include <random>
+
+#include "Glass.h"
 #include "Barman.h"
 
+#define NUMOFGLASSES 3
 
 class Waiter {
 public:
     int waiterId;
-    bool inService = false;
     Barman &barman;
     bool exit = false;
     Glass (&allGlasses)[NUMOFGLASSES];  //referencja na liste szklanek
     int progress;
     std::mt19937 rng{std::random_device{}()};
+    bool exitWaiter = false;
 
     std::mutex waiterMutex;
     std::thread waiterThread;

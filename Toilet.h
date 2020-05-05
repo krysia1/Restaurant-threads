@@ -4,6 +4,8 @@
 #ifndef SO2P_TOILET_H
 #define SO2P_TOILET_H
 
+#include "Barman.h"
+
 #include <mutex>
 
 class Toilet{

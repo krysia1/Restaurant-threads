@@ -12,8 +12,10 @@
 class Client{
 public:
     int clientId;
+    int clientPurpose = 0; //0 przechodzień, 1 pijak, 2 obiadowy
     std::mt19937 rng{std::random_device{}()};   //generator liczb losowych - do losowania czy klient czy pijak
     std::thread clientThread;
+    bool exitClient = false;
 
 
 

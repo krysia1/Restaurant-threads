@@ -32,7 +32,7 @@ void Waiter::serve(){
 
 
 void Waiter::work(){
-    while(!exit){
+    while(!exitWaiter){
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         if(barman.askToClean){
             clean();
