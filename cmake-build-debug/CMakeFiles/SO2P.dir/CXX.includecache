@@ -19,6 +19,8 @@ mutex
 -
 main.h
 /Users/krystynalosieczka/CLionProjects/SO2P/main.h
+ncurses.h
+-
 
 /Users/krystynalosieczka/CLionProjects/SO2P/main.h
 iostream

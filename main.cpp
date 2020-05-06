@@ -104,11 +104,15 @@ public:
 
             changeStatusMutex.lock();
             state = 1; //stan czekania na wyczyszczenie szklanek
+            move(10,10);
+            clrtoeol();
+            printw("BARMAN IS WAITING FOR GLASSES");
+            refresh();
             changeStatusMutex.unlock();
 
-            std::cout<<"Barman is waiting for glasses"<<std::endl;
+//            std::cout<<"Barman is waiting for glasses"<<std::endl;
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
 
     };
@@ -144,7 +148,17 @@ public:
                 double p = (double) i / (double) part;
                 progress = (int) std::round(p * 100.0);
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+                changeStatusMutex.lock();
+                move(10,10);
+                clrtoeol();
+                printw("BARMAN IS SERVING\t\t%i\t%%", progress);
+                refresh();
+                changeStatusMutex.unlock();
             }
+
+
+
 
             for(int i=0; i<NUMOFGLASSES; i++){
                 if (glasses[i].dirty){
@@ -180,7 +194,7 @@ public:
         state = 2; //stan na odpoczywanie
         changeStatusMutex.unlock();
 
-        std::cout<<"Barman is resting"<<std::endl;
+       // std::cout<<"Barman is resting"<<std::endl;
 
         int part = std::uniform_int_distribution<int>(25,35)(rng);
 
@@ -188,6 +202,13 @@ public:
             double p = (double)i / (double)part;
             progress = (int)std::round(p * 100.0);
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+            changeStatusMutex.lock();
+            move(10,10);
+            clrtoeol();
+            printw("BARMAN IS RESTING\t\t%i\t%%", progress);
+            refresh();
+            changeStatusMutex.unlock();
         }
     };
 
@@ -251,7 +272,7 @@ public:
 
 
     void clean(){
-        std::cout << "Waiter "<<waiterId<<" is cleaning"<< std::endl;
+ //       std::cout << "Waiter "<<waiterId<<" is cleaning"<< std::endl;
 
         changeStatusMutex.lock();
         state = 1; //stan na czyszczenie
@@ -268,13 +289,20 @@ public:
                     double p = (double) i / (double) part;
                     progress = (int) std::round(p * 100.0);
                     std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+                    changeStatusMutex.lock();
+                    move(10 + waiterId + 1,10);
+                    clrtoeol();
+                    printw("WAITER IS CLEANING\t\t%i\t%%", progress);
+                    refresh();
+                    changeStatusMutex.unlock();
                 }
 
                 barman.glasses[i].state = 0; //stan na czysty
                 barman.glasses[i].dirty = false;
                 barman.glasses[i].glassMutex.unlock();
 
-                std::cout << "Waiter "<<waiterId<<" cleaned"<< std::endl;
+//                std::cout << "Waiter "<<waiterId<<" cleaned"<< std::endl;
 
             }
         }
@@ -284,7 +312,15 @@ public:
 
 
     void serve(){
-        std::cout << "Waiter "<<waiterId<<" is ready to serve"<< std::endl;
+ //       std::cout << "Waiter "<<waiterId<<" is ready to serve"<< std::endl;
+
+        changeStatusMutex.lock();
+        move(10 + waiterId + 1,10);
+        clrtoeol();
+        printw("WAITER IS READY TO SERVE");
+        refresh();
+        changeStatusMutex.unlock();
+
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
         changeStatusMutex.lock();
@@ -303,6 +339,13 @@ public:
                 double p = (double) i / (double) part;
                 progress = (int) std::round(p * 100.0);
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+                changeStatusMutex.lock();
+                move(10 + waiterId + 1,10);
+                clrtoeol();
+                printw("WAITER IS SERVING\t\t%i\t%%", progress);
+                refresh();
+                changeStatusMutex.unlock();
             }
 
 
@@ -366,7 +409,7 @@ public:
 
 
     void takeASeat(){
-        std::cout<<clientId<<"Client"<<std::endl;
+ //       std::cout<<clientId<<"Client"<<std::endl;
 
         int pointer = RESTAURANTCAPACITY - 1;
 
@@ -399,7 +442,7 @@ public:
 
                 if (restaurantQueue[pointer - 1].try_lock()) {
 
-                    std::cout<<clientId<<"Client is waiting"<<std::endl;
+//                    std::cout<<clientId<<"Client is waiting"<<std::endl;
 
 
                     changeStatusMutex.lock();
@@ -417,7 +460,7 @@ public:
             } else {
                 for (int i = 0; i < NUMOFWAITERS; i++) {
                     if (waiters[i]->serveMutex.try_lock()) {
-                        std::cout << clientId << "Served Client" << std::endl;
+ //                       std::cout << clientId << "Served Client" << std::endl;
 
 
                         changeStatusMutex.lock();
@@ -458,7 +501,7 @@ public:
 
 
     void seatByTheCounter(){
-        std::cout<<clientId<<"Drunkard"<<std::endl;
+//        std::cout<<clientId<<"Drunkard"<<std::endl;
 
         int pointer = COUNTERCAPACITY - 1;
 
@@ -484,7 +527,7 @@ public:
 
                 if (counterQueue[pointer - 1].try_lock()) {
 
-                    std::cout<<clientId<<"Drunkard waits in the queue"<<std::endl;
+//                    std::cout<<clientId<<"Drunkard waits in the queue"<<std::endl;
 
                     changeStatusMutex.lock();
                     counterStatus[pointer + 1] = -1;
@@ -502,7 +545,7 @@ public:
                 if(servedDrunkard.try_lock()){
 
                     drinkingDrunkard = clientId;
-                    std::cout<<clientId<<"Served Drunkard"<<std::endl;
+//                    std::cout<<clientId<<"Served Drunkard"<<std::endl;
 
                     changeStatusMutex.lock();
                     counterStatus[0] = clientId;
@@ -540,7 +583,7 @@ public:
         clientPurpose = 0;
         changeStatusMutex.unlock();
 
-        std::cout<<clientId<<"Bye"<<std::endl;
+//        std::cout<<clientId<<"Bye"<<std::endl;
     };
 
 
