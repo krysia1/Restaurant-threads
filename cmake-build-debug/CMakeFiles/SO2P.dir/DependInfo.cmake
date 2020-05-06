@@ -4,12 +4,6 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/krystynalosieczka/CLionProjects/SO2P/Barman.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Barman.cpp.o"
-  "/Users/krystynalosieczka/CLionProjects/SO2P/Client.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Client.cpp.o"
-  "/Users/krystynalosieczka/CLionProjects/SO2P/Cook.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Cook.cpp.o"
-  "/Users/krystynalosieczka/CLionProjects/SO2P/Supplier.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Supplier.cpp.o"
-  "/Users/krystynalosieczka/CLionProjects/SO2P/Toilet.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Toilet.cpp.o"
-  "/Users/krystynalosieczka/CLionProjects/SO2P/Waiter.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/Waiter.cpp.o"
   "/Users/krystynalosieczka/CLionProjects/SO2P/main.cpp" "/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles/SO2P.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")

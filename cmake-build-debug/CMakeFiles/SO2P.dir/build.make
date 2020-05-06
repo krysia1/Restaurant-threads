@@ -70,107 +70,17 @@ CMakeFiles/SO2P.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SO2P.dir/main.cpp.s"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/krystynalosieczka/CLionProjects/SO2P/main.cpp -o CMakeFiles/SO2P.dir/main.cpp.s
 
-CMakeFiles/SO2P.dir/Supplier.cpp.o: CMakeFiles/SO2P.dir/flags.make
-CMakeFiles/SO2P.dir/Supplier.cpp.o: ../Supplier.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/SO2P.dir/Supplier.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SO2P.dir/Supplier.cpp.o -c /Users/krystynalosieczka/CLionProjects/SO2P/Supplier.cpp
-
-CMakeFiles/SO2P.dir/Supplier.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SO2P.dir/Supplier.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/krystynalosieczka/CLionProjects/SO2P/Supplier.cpp > CMakeFiles/SO2P.dir/Supplier.cpp.i
-
-CMakeFiles/SO2P.dir/Supplier.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SO2P.dir/Supplier.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/krystynalosieczka/CLionProjects/SO2P/Supplier.cpp -o CMakeFiles/SO2P.dir/Supplier.cpp.s
-
-CMakeFiles/SO2P.dir/Waiter.cpp.o: CMakeFiles/SO2P.dir/flags.make
-CMakeFiles/SO2P.dir/Waiter.cpp.o: ../Waiter.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/SO2P.dir/Waiter.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SO2P.dir/Waiter.cpp.o -c /Users/krystynalosieczka/CLionProjects/SO2P/Waiter.cpp
-
-CMakeFiles/SO2P.dir/Waiter.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SO2P.dir/Waiter.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/krystynalosieczka/CLionProjects/SO2P/Waiter.cpp > CMakeFiles/SO2P.dir/Waiter.cpp.i
-
-CMakeFiles/SO2P.dir/Waiter.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SO2P.dir/Waiter.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/krystynalosieczka/CLionProjects/SO2P/Waiter.cpp -o CMakeFiles/SO2P.dir/Waiter.cpp.s
-
-CMakeFiles/SO2P.dir/Cook.cpp.o: CMakeFiles/SO2P.dir/flags.make
-CMakeFiles/SO2P.dir/Cook.cpp.o: ../Cook.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/SO2P.dir/Cook.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SO2P.dir/Cook.cpp.o -c /Users/krystynalosieczka/CLionProjects/SO2P/Cook.cpp
-
-CMakeFiles/SO2P.dir/Cook.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SO2P.dir/Cook.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/krystynalosieczka/CLionProjects/SO2P/Cook.cpp > CMakeFiles/SO2P.dir/Cook.cpp.i
-
-CMakeFiles/SO2P.dir/Cook.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SO2P.dir/Cook.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/krystynalosieczka/CLionProjects/SO2P/Cook.cpp -o CMakeFiles/SO2P.dir/Cook.cpp.s
-
-CMakeFiles/SO2P.dir/Barman.cpp.o: CMakeFiles/SO2P.dir/flags.make
-CMakeFiles/SO2P.dir/Barman.cpp.o: ../Barman.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/SO2P.dir/Barman.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SO2P.dir/Barman.cpp.o -c /Users/krystynalosieczka/CLionProjects/SO2P/Barman.cpp
-
-CMakeFiles/SO2P.dir/Barman.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SO2P.dir/Barman.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/krystynalosieczka/CLionProjects/SO2P/Barman.cpp > CMakeFiles/SO2P.dir/Barman.cpp.i
-
-CMakeFiles/SO2P.dir/Barman.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SO2P.dir/Barman.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/krystynalosieczka/CLionProjects/SO2P/Barman.cpp -o CMakeFiles/SO2P.dir/Barman.cpp.s
-
-CMakeFiles/SO2P.dir/Client.cpp.o: CMakeFiles/SO2P.dir/flags.make
-CMakeFiles/SO2P.dir/Client.cpp.o: ../Client.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/SO2P.dir/Client.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SO2P.dir/Client.cpp.o -c /Users/krystynalosieczka/CLionProjects/SO2P/Client.cpp
-
-CMakeFiles/SO2P.dir/Client.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SO2P.dir/Client.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/krystynalosieczka/CLionProjects/SO2P/Client.cpp > CMakeFiles/SO2P.dir/Client.cpp.i
-
-CMakeFiles/SO2P.dir/Client.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SO2P.dir/Client.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/krystynalosieczka/CLionProjects/SO2P/Client.cpp -o CMakeFiles/SO2P.dir/Client.cpp.s
-
-CMakeFiles/SO2P.dir/Toilet.cpp.o: CMakeFiles/SO2P.dir/flags.make
-CMakeFiles/SO2P.dir/Toilet.cpp.o: ../Toilet.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/SO2P.dir/Toilet.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SO2P.dir/Toilet.cpp.o -c /Users/krystynalosieczka/CLionProjects/SO2P/Toilet.cpp
-
-CMakeFiles/SO2P.dir/Toilet.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SO2P.dir/Toilet.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/krystynalosieczka/CLionProjects/SO2P/Toilet.cpp > CMakeFiles/SO2P.dir/Toilet.cpp.i
-
-CMakeFiles/SO2P.dir/Toilet.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SO2P.dir/Toilet.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/krystynalosieczka/CLionProjects/SO2P/Toilet.cpp -o CMakeFiles/SO2P.dir/Toilet.cpp.s
-
 # Object files for target SO2P
 SO2P_OBJECTS = \
-"CMakeFiles/SO2P.dir/main.cpp.o" \
-"CMakeFiles/SO2P.dir/Supplier.cpp.o" \
-"CMakeFiles/SO2P.dir/Waiter.cpp.o" \
-"CMakeFiles/SO2P.dir/Cook.cpp.o" \
-"CMakeFiles/SO2P.dir/Barman.cpp.o" \
-"CMakeFiles/SO2P.dir/Client.cpp.o" \
-"CMakeFiles/SO2P.dir/Toilet.cpp.o"
+"CMakeFiles/SO2P.dir/main.cpp.o"
 
 # External object files for target SO2P
 SO2P_EXTERNAL_OBJECTS =
 
 SO2P: CMakeFiles/SO2P.dir/main.cpp.o
-SO2P: CMakeFiles/SO2P.dir/Supplier.cpp.o
-SO2P: CMakeFiles/SO2P.dir/Waiter.cpp.o
-SO2P: CMakeFiles/SO2P.dir/Cook.cpp.o
-SO2P: CMakeFiles/SO2P.dir/Barman.cpp.o
-SO2P: CMakeFiles/SO2P.dir/Client.cpp.o
-SO2P: CMakeFiles/SO2P.dir/Toilet.cpp.o
 SO2P: CMakeFiles/SO2P.dir/build.make
 SO2P: CMakeFiles/SO2P.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable SO2P"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/krystynalosieczka/CLionProjects/SO2P/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable SO2P"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/SO2P.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

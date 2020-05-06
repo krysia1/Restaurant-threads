@@ -80,46 +80,10 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Barman.cpp">
-			<Option target="SO2P"/>
-		</Unit>
-		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Barman.h">
-			<Option target="SO2P"/>
-		</Unit>
-		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Client.cpp">
-			<Option target="SO2P"/>
-		</Unit>
-		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Client.h">
-			<Option target="SO2P"/>
-		</Unit>
-		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Cook.cpp">
-			<Option target="SO2P"/>
-		</Unit>
-		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Cook.h">
-			<Option target="SO2P"/>
-		</Unit>
-		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Glass.h">
-			<Option target="SO2P"/>
-		</Unit>
-		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Supplier.cpp">
-			<Option target="SO2P"/>
-		</Unit>
-		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Supplier.h">
-			<Option target="SO2P"/>
-		</Unit>
-		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Toilet.cpp">
-			<Option target="SO2P"/>
-		</Unit>
-		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Toilet.h">
-			<Option target="SO2P"/>
-		</Unit>
-		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Waiter.cpp">
-			<Option target="SO2P"/>
-		</Unit>
-		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/Waiter.h">
-			<Option target="SO2P"/>
-		</Unit>
 		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/main.cpp">
+			<Option target="SO2P"/>
+		</Unit>
+		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/main.h">
 			<Option target="SO2P"/>
 		</Unit>
 		<Unit filename="/Users/krystynalosieczka/CLionProjects/SO2P/CMakeLists.txt">
