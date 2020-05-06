@@ -13,6 +13,7 @@
 
 #include "main.h"
 
+#include <ncurses.h>
 
 
 /////////////////////////////////// CLASS GLASS ///////////////////////////////////////////////////////////////////////
@@ -648,24 +649,44 @@ int main() {
         clients.push_back(c);
     }
 
+    
+    initscr();
+    raw();
+//    noecho;
+//    nodelay(stdscr, TRUE);
+//    cbreak;
+    curs_set(0);
+    use_default_colors();
 
+    start_color();
+    init_pair(1, COLOR_RED, COLOR_WHITE);
+    init_pair(2, COLOR_WHITE, COLOR_YELLOW);
 
-    b->barmanThread.join();
+    move(0, 0);
+    clrtoeol();
+    attron(COLOR_PAIR(2));
+    printw("------RESTAURANT------");   
 
-    waiters[0]->waiterThread.join();
-    waiters[1]->waiterThread.join();
-    waiters[2]->waiterThread.join();
+    refresh();
+    getch();
+//    endwin();
 
-    clients[0]->clientThread.join();
-    clients[1]->clientThread.join();
-    clients[2]->clientThread.join();
-    clients[3]->clientThread.join();
-    clients[4]->clientThread.join();
-    clients[5]->clientThread.join();
-    clients[6]->clientThread.join();
-    clients[7]->clientThread.join();
-    clients[8]->clientThread.join();
-    clients[9]->clientThread.join();
+//    b->barmanThread.join();
+
+//    waiters[0]->waiterThread.join();
+//    waiters[1]->waiterThread.join();
+//    waiters[2]->waiterThread.join();
+
+//    clients[0]->clientThread.join();
+//    clients[1]->clientThread.join();
+//    clients[2]->clientThread.join();
+//    clients[3]->clientThread.join();
+//    clients[4]->clientThread.join();
+//    clients[5]->clientThread.join();
+//    clients[6]->clientThread.join();
+//    clients[7]->clientThread.join();
+//    clients[8]->clientThread.join();
+//    clients[9]->clientThread.join();
 
 
 
