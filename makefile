@@ -1,2 +1,2 @@
 main:
-	g++ main.cpp -o restauracja -lncurses -lpthread
+	g++ main.cpp -o restaurant -lncurses -lpthread
