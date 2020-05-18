@@ -34,6 +34,9 @@ bool stop = false;
 int drinkingDrunkard;
 bool amIDrunk = false;
 
+bool isCounterTaken = false;
+
+
 
 
 #endif //SO2P_MAIN_H
