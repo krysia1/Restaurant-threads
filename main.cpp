@@ -64,17 +64,17 @@ public:
                         glasses[i].taken = true;
 
 
-//			 changeStatusMutex.lock();
-//            		 move(19 + glasses[i].glassId, 0);
-//            		 clrtoeol();
-//              		 printw("GLASS %d is taken by BARMAN", glasses[i]. glassId);
-//            		 refresh();
-//            		 changeStatusMutex.unlock();
+			 changeStatusMutex.lock();
+            		 move(19 + glasses[i].glassId, 0);
+            		 clrtoeol();
+              		 printw("GLASS %d is taken by BARMAN", glasses[i]. glassId);
+            		 refresh();
+            		 changeStatusMutex.unlock();
 
 
                         glasses[i].state = 2; //stan na używany
                         pickedGlasses++;
-                        glasses[i].glassMutex.unlock();
+//                        glasses[i].glassMutex.unlock();
 
 
                     }
@@ -88,20 +88,20 @@ public:
 
     void checkGlasses(){
 
-        if(dirtyGlasses > 1){
+        while(dirtyGlasses > 1){
             changeStatusMutex.lock();
             askToClean = true;
             changeStatusMutex.unlock();
 
-//            changeStatusMutex.lock();
-//            state = 1; //stan czekania na wyczyszczenie szklanek
-//            move(3, 0);
-//            clrtoeol();
-//            printw("BARMAN is waiting for GLASSES");
-//            refresh();
-//            changeStatusMutex.unlock();
+            changeStatusMutex.lock();
+            state = 1; //stan czekania na wyczyszczenie szklanek
+            move(3, 0);
+            clrtoeol();
+            printw("BARMAN is waiting for GLASSES");
+            refresh();
+            changeStatusMutex.unlock();
 
-            std::cout<<"Barman asked to clean glasses"<<std::endl;
+//            std::cout<<"Barman asked to clean glasses"<<std::endl;
 
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
@@ -114,41 +114,56 @@ public:
 
         tryGlasses();
 
-        if(pickedGlasses < 2){      //jeśli udało się wziąć tylko jedną szklankę to ją odkłada
-            for(int i=0; i<NUMOFGLASSES; i++) {
+        if(pickedGlasses != 2){ 	//jeśli udało się wziąć tylko jedną szklankę to ją odkłada
+// 		tryGlasses();
+//		checkGlasses();
+		
+		
+           for(int i=0; i<NUMOFGLASSES; i++) {
                 if (glasses[i].taken){
-                    glasses[i].glassMutex.lock();
+//                    glasses[i].glassMutex.lock();
                     glasses[i].taken = false;
 
 
-//		    changeStatusMutex.lock();
-//                    move(19 + glasses[i].glassId, 0);
-//                    clrtoeol();
-//                    printw("GLASS %d is put back by BARMAN", glasses[i].glassId);
-//                    refresh();
-//                    changeStatusMutex.unlock();
+		    changeStatusMutex.lock();
+                    move(19 + glasses[i].glassId, 0);
+                    clrtoeol();
+                    printw("GLASS %d is put back by BARMAN", glasses[i].glassId);
+                    refresh();
+                    changeStatusMutex.unlock();
 
 
                     glasses[i].state = 0; //stan na czysty
                     glasses[i].glassMutex.unlock();
+
+		     changeStatusMutex.lock();
+                    move(19 + glasses[i].glassId, 0);
+                    clrtoeol();
+                    printw("GLASS %d is clear", glasses[i].glassId);
+                    refresh();
+                    changeStatusMutex.unlock();
+
                 }
             }
+	   pickedGlasses = 0;
+
             std::this_thread::sleep_for(std::chrono::milliseconds(30));
 
-        } else {
+        } 
+	else {
             for(int i=0; i<NUMOFGLASSES; i++) {
                 if (glasses[i].taken){
-                    glasses[i].glassMutex.lock();
-                    glasses[i].dirty = true;
-                    glasses[i].glassMutex.unlock();
+//                    glasses[i].glassMutex.lock();
+//                    glasses[i].dirty = true;
+//                    glasses[i].glassMutex.unlock();
 
-//		    changeStatusMutex.lock();
+		    changeStatusMutex.lock();
 //		    glasses[i].dirty = true;
-//        	    move(19 + glasses[i].glassId, 0);
-//        	    clrtoeol();
-//                    printw("GLASS %d is used by BARMAN", glasses[i].glassId);
-//                    refresh();
-//                    changeStatusMutex.unlock();
+        	    move(19 + glasses[i].glassId, 0);
+        	    clrtoeol();
+                    printw("GLASS %d is used by BARMAN", glasses[i].glassId);
+                    refresh();
+                    changeStatusMutex.unlock();
 
                 }
             }
@@ -156,7 +171,7 @@ public:
             state = 3; //stan na obsługę pijaka
             changeStatusMutex.unlock();
 
-            std::cout<<"Barman is serving"<<std::endl;
+//            std::cout<<"Barman is serving"<<std::endl;
 
             int part = std::uniform_int_distribution<int>(25, 35)(rng);
             for (auto i = 1; i <= part; i++) {
@@ -164,27 +179,30 @@ public:
                 progress = (int) std::round(p * 100.0);
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-//                changeStatusMutex.lock();
-//                move(3, 0);
-//                clrtoeol();
-//                printw("BARMAN is serving\t\t%i\t%%", progress);
-//                refresh();
-//                changeStatusMutex.unlock();
+                changeStatusMutex.lock();
+                move(3, 0);
+                clrtoeol();
+                printw("BARMAN is serving\t\t%i\t%%", progress);
+                refresh();
+                changeStatusMutex.unlock();
             }
 
 
 
             for(int i=0; i<NUMOFGLASSES; i++){
-                if (glasses[i].dirty){
-                    glasses[i].glassMutex.lock();
+                if (glasses[i].taken){
+//                    glasses[i].glassMutex.lock();
+		   
+                    glasses[i].dirty = true;
+
                     glasses[i].state = 1; //stan na brudny
 
-//		    changeStatusMutex.lock();
-//                    move(19 + glasses[i].glassId, 0);
-//                    clrtoeol();
-//                    printw("Glass %d is dirty", glasses[i].glassId);
-//                    refresh();
-//                    changeStatusMutex.unlock();
+		    changeStatusMutex.lock();
+                    move(19 + glasses[i].glassId, 0);
+                    clrtoeol();
+                    printw("Glass %d is dirty", glasses[i].glassId);
+                    refresh();
+                    changeStatusMutex.unlock();
 
                     changeStatusMutex.lock();
                     dirtyGlasses++;
@@ -218,7 +236,7 @@ public:
         state = 2; //stan na odpoczywanie
         changeStatusMutex.unlock();
 
-        std::cout<<"Barman is resting"<<std::endl;
+//        std::cout<<"Barman is resting"<<std::endl;
 
         int part = std::uniform_int_distribution<int>(25,35)(rng);
 
@@ -227,12 +245,12 @@ public:
             progress = (int)std::round(p * 100.0);
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-//            changeStatusMutex.lock();
-//            move(3, 0);
-//            clrtoeol();
-//            printw("BARMAN is resting\t\t%i\t%%", progress);
-//            refresh();
-//            changeStatusMutex.unlock();
+            changeStatusMutex.lock();
+            move(3, 0);
+            clrtoeol();
+            printw("BARMAN is resting\t\t%i\t%%", progress);
+            refresh();
+            changeStatusMutex.unlock();
         }
     };
 
@@ -242,11 +260,29 @@ public:
 
         while(!exitBarman) {
 
-            if (isCounterTaken) {
-                serveDrunkard();
-            } else {
-                rest();
-            }
+		bool isEmpty = true;
+		for(int i = 0; i < COUNTERCAPACITY; i++){
+			if(counter[i].try_lock()){
+				counter[i].unlock();
+			} else {
+				isEmpty = false;
+			}
+		}
+
+		if(isEmpty){
+			rest();
+		} else {
+			serveDrunkard();
+		}
+		
+
+
+
+//            if (isCounterTaken) {
+//                serveDrunkard();
+//            } else {
+//                rest();
+//            }
 
         }
     }
@@ -281,7 +317,7 @@ public:
 
 
     void clean(){
-        std::cout << "Waiter "<<waiterId<<" is cleaning"<< std::endl;
+//        std::cout << "Waiter "<<waiterId<<" is cleaning"<< std::endl;
 
         changeStatusMutex.lock();
         state = 1; //stan na czyszczenie
@@ -292,12 +328,12 @@ public:
                 barman.glasses[i].glassMutex.lock();
                 barman.glasses[i].state = 3; //stan na czyszczony
 
-//		changeStatusMutex.lock();
-//                move(19 + barman.glasses[i].glassId, 0);
-//                clrtoeol();
-//                printw("GLASS %d is being cleaned by WAITER %d", barman.glasses[i].glassId, waiterId+1);
-//                refresh();
-//                changeStatusMutex.unlock();
+		changeStatusMutex.lock();
+                move(19 + barman.glasses[i].glassId, 0);
+                clrtoeol();
+                printw("GLASS %d is being cleaned by WAITER %d", barman.glasses[i].glassId, waiterId+1);
+                refresh();
+                changeStatusMutex.unlock();
 
 
                 int part = std::uniform_int_distribution<int>(25, 35)(rng);
@@ -307,35 +343,38 @@ public:
                     progress = (int) std::round(p * 100.0);
                     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-//                    changeStatusMutex.lock();
-//                    move(9 + waiterId, 0);
-//                    clrtoeol();
-//                    printw("WAITER %d is cleaning GLASS %d \t\t%i\t%%", waiterId+1, barman.glasses[i].glassId, progress);
-//                    refresh();
-//                    changeStatusMutex.unlock();
+                    changeStatusMutex.lock();
+                    move(9 + waiterId, 0);
+                    clrtoeol();
+                    printw("WAITER %d is cleaning GLASS %d \t\t%i\t%%", waiterId+1, barman.glasses[i].glassId, progress);
+                    refresh();
+                    changeStatusMutex.unlock();
                 }
 
+		changeStatusMutex.lock();
                 barman.glasses[i].state = 0; //stan na czysty
+		barman.dirtyGlasses--;
+		changeStatusMutex.unlock();
 
-//		changeStatusMutex.lock();
-//                move(19 + barman.glasses[i].glassId, 0);
-//                clrtoeol();
-//                printw("Glass %d is clear", barman.glasses[i].glassId);
-//                refresh();
-//                changeStatusMutex.unlock();
+		changeStatusMutex.lock();
+                move(19 + barman.glasses[i].glassId, 0);
+                clrtoeol();
+                printw("GLASS %d is clear", barman.glasses[i].glassId);
+                refresh();
+                changeStatusMutex.unlock();
 
 
                 barman.glasses[i].dirty = false;
                 barman.glasses[i].glassMutex.unlock();
 
-                std::cout << "Waiter "<<waiterId<<" cleaned"<< std::endl;
+ //               std::cout << "Waiter "<<waiterId<<" cleaned"<< std::endl;
 
             }
         }
 
         changeStatusMutex.lock();
         barman.askToClean = false;
-        barman.dirtyGlasses = 0;
+//        barman.dirtyGlasses = 0;
         changeStatusMutex.unlock();
 
     };
@@ -344,14 +383,14 @@ public:
 
 
     void serve(){
-        std::cout << "Waiter "<<waiterId<<" is ready to serve"<< std::endl;
+//        std::cout << "Waiter "<<waiterId<<" is ready to serve"<< std::endl;
 
-//        changeStatusMutex.lock();
-//        move(9 + waiterId, 0);
-//        clrtoeol();
-//        printw("WAITER %d is ready to serve", waiterId+1);
-//        refresh();
-//        changeStatusMutex.unlock();
+        changeStatusMutex.lock();
+        move(9 + waiterId, 0);
+        clrtoeol();
+        printw("WAITER %d is ready to serve", waiterId+1);
+        refresh();
+        changeStatusMutex.unlock();
 
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
@@ -372,12 +411,12 @@ public:
                 progress = (int) std::round(p * 100.0);
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-//                changeStatusMutex.lock();
-//                move(9 + waiterId, 0);
-//                clrtoeol();
-//                printw("WAITER %d is serving\t\t%i\t%%", waiterId+1,  progress);
-//                refresh();
-//                changeStatusMutex.unlock();
+                changeStatusMutex.lock();
+                move(9 + waiterId, 0);
+                clrtoeol();
+                printw("WAITER %d is serving\t\t%i\t%%", waiterId+1,  progress);
+                refresh();
+                changeStatusMutex.unlock();
             }
 
 
@@ -441,7 +480,7 @@ public:
 
 
     void takeASeat(){
-        std::cout<<clientId<<"Client"<<std::endl;
+//        std::cout<<clientId<<"Client"<<std::endl;
 
         int pointer = RESTAURANTCAPACITY - 1;
 
@@ -474,7 +513,7 @@ public:
 
                 if (restaurantQueue[pointer - 1].try_lock()) {
 
-                    std::cout<<clientId<<"Client is waiting"<<std::endl;
+//                  std::cout<<clientId<<"Client is waiting"<<std::endl;
 
 
                     changeStatusMutex.lock();
@@ -492,7 +531,7 @@ public:
             } else {
                 for (int i = 0; i < NUMOFWAITERS; i++) {
                     if (waiters[i]->serveMutex.try_lock()) {
-                        std::cout << clientId << "Served Client" << std::endl;
+//                        std::cout << clientId << "Served Client" << std::endl;
 
 
                         changeStatusMutex.lock();
@@ -533,7 +572,7 @@ public:
 
 
     void seatByTheCounter(){
-        std::cout<<clientId<<"Drunkard"<<std::endl;
+//        std::cout<<clientId<<"Drunkard"<<std::endl;
 
         int pointer = COUNTERCAPACITY - 1;
 
@@ -559,7 +598,7 @@ public:
 
                 if (counterQueue[pointer - 1].try_lock()) {
 
-                    std::cout<<clientId<<"Drunkard waits in the queue"<<std::endl;
+//                    std::cout<<clientId<<"Drunkard waits in the queue"<<std::endl;
 
                     changeStatusMutex.lock();
                     counterStatus[pointer + 1] = -1;
@@ -578,7 +617,7 @@ public:
 
                     drinkingDrunkard = clientId;
 
-                    std::cout<<clientId<<"Served Drunkard"<<std::endl;
+//                    std::cout<<clientId<<"Served Drunkard"<<std::endl;
 
                     changeStatusMutex.lock();
                     counterStatus[0] = clientId;
@@ -620,7 +659,7 @@ public:
         clientPurpose = 0;
         changeStatusMutex.unlock();
 
-        std::cout<<clientId<<"Bye"<<std::endl;
+//        std::cout<<clientId<<"Bye"<<std::endl;
     };
 
 
@@ -730,58 +769,58 @@ int main() {
     }
 
     
-//    initscr();
-//    raw();
+    initscr();
+    raw();
 ////    noecho;
 ////    nodelay(stdscr, TRUE);
 ////    cbreak;
-//    curs_set(0);
-//    use_default_colors();
-//
-//    start_color();
-//    init_pair(1, COLOR_WHITE, COLOR_BLUE);
-//    init_pair(2, COLOR_BLACK, COLOR_YELLOW);
-//
-//    move(0, 0);
-//    clrtoeol();
-//    attron(COLOR_PAIR(2));
-//    printw("---------------------- RESTAURANT -----------------------");
-//
-//    move(2, 0);
-//    clrtoeol();
-//    attron(COLOR_PAIR(2));
-//    printw("####################### COUNTER #########################");
-//
-//    move(8, 0);
-//    clrtoeol();
-//    attron(COLOR_PAIR(2));
-//    printw("####################### TABLES ###########################");
-//
-//    move(19, 0);
-//    clrtoeol();
-//    attron(COLOR_PAIR(2));
-//    printw("###################### RESOURCES #########################");
-//    attroff(COLOR_PAIR(2));
-//
-//    attron(COLOR_PAIR(1));
-//
-//    move(20, 0);
-//    clrtoeol();
-//    printw("GLASS 1 is clear");
-//
-//    move(21, 0);
-//    clrtoeol();
-//    printw("GLASS 2 is clear");
-//
-//    move(22, 0);
-//    clrtoeol();
-//    printw("GLASS 3 is clear");
-//
-//
-//
-//    refresh();
-//    getch();
-//    endwin();
+    curs_set(0);
+    use_default_colors();
+    start_color();
+
+    init_pair(1, COLOR_WHITE, COLOR_BLUE);
+    init_pair(2, COLOR_BLACK, COLOR_YELLOW);
+
+    move(0, 0);
+    clrtoeol();
+    attron(COLOR_PAIR(2));
+    printw("---------------------- RESTAURANT -----------------------");
+
+    move(2, 0);
+    clrtoeol();
+    attron(COLOR_PAIR(2));
+    printw("####################### COUNTER #########################");
+
+    move(8, 0);
+    clrtoeol();
+    attron(COLOR_PAIR(2));
+    printw("####################### TABLES ###########################");
+
+    move(19, 0);
+    clrtoeol();
+    attron(COLOR_PAIR(2));
+    printw("###################### RESOURCES #########################");
+    attroff(COLOR_PAIR(2));
+
+    attron(COLOR_PAIR(1));
+
+    move(20, 0);
+    clrtoeol();
+    printw("GLASS 1 is clear");
+
+    move(21, 0);
+    clrtoeol();
+    printw("GLASS 2 is clear");
+
+    move(22, 0);
+    clrtoeol();
+    printw("GLASS 3 is clear");
+
+
+    
+    refresh();
+    getch();
+    endwin();
 
     b->barmanThread.join();
 
