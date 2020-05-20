@@ -64,16 +64,19 @@ public:
                         glasses[i].taken = true;
 
 
-			 changeStatusMutex.lock();
-            		 move(19 + glasses[i].glassId, 0);
-            		 clrtoeol();
-              		 printw("GLASS %d is taken by BARMAN", glasses[i]. glassId);
-            		 refresh();
-            		 changeStatusMutex.unlock();
+//			 changeStatusMutex.lock();
+//            		 move(19 + glasses[i].glassId, 0);
+//            		 clrtoeol();
+//              		 printw("GLASS %d is taken by BARMAN", glasses[i]. glassId);
+//            		 refresh();
+//            		 changeStatusMutex.unlock();
 
 
                         glasses[i].state = 2; //stan na używany
+
+			changeStatusMutex.lock();
                         pickedGlasses++;
+			changeStatusMutex.unlock();
 //                        glasses[i].glassMutex.unlock();
 
 
@@ -125,27 +128,31 @@ public:
                     glasses[i].taken = false;
 
 
-		    changeStatusMutex.lock();
-                    move(19 + glasses[i].glassId, 0);
-                    clrtoeol();
-                    printw("GLASS %d is put back by BARMAN", glasses[i].glassId);
-                    refresh();
-                    changeStatusMutex.unlock();
+//		    changeStatusMutex.lock();
+//                    move(19 + glasses[i].glassId, 0);
+//                    clrtoeol();
+//                    printw("GLASS %d is put back by BARMAN", glasses[i].glassId);
+//                    refresh();
+//                    changeStatusMutex.unlock();
 
 
                     glasses[i].state = 0; //stan na czysty
-                    glasses[i].glassMutex.unlock();
+//                    glasses[i].glassMutex.unlock();
 
-		     changeStatusMutex.lock();
-                    move(19 + glasses[i].glassId, 0);
-                    clrtoeol();
-                    printw("GLASS %d is clear", glasses[i].glassId);
-                    refresh();
-                    changeStatusMutex.unlock();
+//		     changeStatusMutex.lock();
+//                    move(19 + glasses[i].glassId, 0);
+//                    clrtoeol();
+//                    printw("GLASS %d is clear", glasses[i].glassId);
+//                    refresh();
+//                    changeStatusMutex.unlock();
+
+		    glasses[i].glassMutex.unlock();
 
                 }
             }
+	   changeStatusMutex.lock();
 	   pickedGlasses = 0;
+	   changeStatusMutex.unlock();
 
             std::this_thread::sleep_for(std::chrono::milliseconds(30));
 
@@ -202,9 +209,9 @@ public:
                     clrtoeol();
                     printw("Glass %d is dirty", glasses[i].glassId);
                     refresh();
-                    changeStatusMutex.unlock();
+//                    changeStatusMutex.unlock();
 
-                    changeStatusMutex.lock();
+//                    changeStatusMutex.lock();
                     dirtyGlasses++;
                     changeStatusMutex.unlock();
                     glasses[i].glassMutex.unlock();
