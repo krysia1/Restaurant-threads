@@ -16,6 +16,8 @@
 #include <ncurses.h>
 
 
+
+
 /////////////////////////////////// CLASS GLASS ///////////////////////////////////////////////////////////////////////
 
 class Glass{
@@ -98,10 +100,10 @@ public:
 
             changeStatusMutex.lock();
             state = 1; //stan czekania na wyczyszczenie szklanek
-            move(3, 0);
-            clrtoeol();
-            printw("BARMAN is waiting for GLASSES");
-            refresh();
+//            move(3, 0);
+//            clrtoeol();
+//            printw("BARMAN is waiting for GLASSES");
+//            refresh();
             changeStatusMutex.unlock();
 
 //            std::cout<<"Barman asked to clean glasses"<<std::endl;
@@ -186,12 +188,16 @@ public:
                 progress = (int) std::round(p * 100.0);
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-                changeStatusMutex.lock();
-                move(3, 0);
-                clrtoeol();
-                printw("BARMAN is serving\t\t%i\t%%", progress);
-                refresh();
-                changeStatusMutex.unlock();
+//                changeStatusMutex.lock();
+//                move(3, 0);
+//                clrtoeol();
+//                printw("BARMAN is serving");
+//		move(3, x-4);
+//		clrtoeol();
+//		printw("%i%%", progress);
+//		printw("%i", w);
+//                refresh();
+//                changeStatusMutex.unlock();
             }
 
 
@@ -252,12 +258,15 @@ public:
             progress = (int)std::round(p * 100.0);
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-            changeStatusMutex.lock();
-            move(3, 0);
-            clrtoeol();
-            printw("BARMAN is resting\t\t%i\t%%", progress);
-            refresh();
-            changeStatusMutex.unlock();
+ //           changeStatusMutex.lock();
+ //           move(3, 0);
+ //           clrtoeol();
+ //           printw("BARMAN is resting");
+//	    move(3, x-4);
+//            clrtoeol();
+//            printw("%i%%", progress);
+//            refresh();
+//            changeStatusMutex.unlock();
         }
     };
 
@@ -312,6 +321,8 @@ public:
     std::mt19937 rng{std::random_device{}()};
     bool exitWaiter = false;
 
+    int glassCleaned;
+
     std::mutex serveMutex;
     bool serveClient = false;
     std::thread waiterThread;
@@ -335,6 +346,9 @@ public:
                 barman.glasses[i].glassMutex.lock();
                 barman.glasses[i].state = 3; //stan na czyszczony
 
+
+		glassCleaned =  barman.glasses[i].glassId;
+
 		changeStatusMutex.lock();
                 move(19 + barman.glasses[i].glassId, 0);
                 clrtoeol();
@@ -350,12 +364,15 @@ public:
                     progress = (int) std::round(p * 100.0);
                     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-                    changeStatusMutex.lock();
-                    move(9 + waiterId, 0);
-                    clrtoeol();
-                    printw("WAITER %d is cleaning GLASS %d \t\t%i\t%%", waiterId+1, barman.glasses[i].glassId, progress);
-                    refresh();
-                    changeStatusMutex.unlock();
+//                    changeStatusMutex.lock();
+//                    move(9 + waiterId, 0);
+//                    clrtoeol();
+//                    printw("WAITER %d is cleaning GLASS %d", waiterId+1, barman.glasses[i].glassId);
+//		    move(9 + waiterId, x-4);
+//                    clrtoeol();
+//                    printw("%i%%", progress);
+//                    refresh();
+//                    changeStatusMutex.unlock();
                 }
 
 		changeStatusMutex.lock();
@@ -382,6 +399,7 @@ public:
         changeStatusMutex.lock();
         barman.askToClean = false;
 //        barman.dirtyGlasses = 0;
+	state = 0;
         changeStatusMutex.unlock();
 
     };
@@ -392,12 +410,12 @@ public:
     void serve(){
 //        std::cout << "Waiter "<<waiterId<<" is ready to serve"<< std::endl;
 
-        changeStatusMutex.lock();
-        move(9 + waiterId, 0);
-        clrtoeol();
-        printw("WAITER %d is ready to serve", waiterId+1);
-        refresh();
-        changeStatusMutex.unlock();
+//        changeStatusMutex.lock();
+//        move(9 + waiterId, 0);
+//        clrtoeol();
+//        printw("WAITER %d is ready to serve", waiterId+1);
+//        refresh();
+ //       changeStatusMutex.unlock();
 
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
@@ -418,12 +436,15 @@ public:
                 progress = (int) std::round(p * 100.0);
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-                changeStatusMutex.lock();
-                move(9 + waiterId, 0);
-                clrtoeol();
-                printw("WAITER %d is serving\t\t%i\t%%", waiterId+1,  progress);
-                refresh();
-                changeStatusMutex.unlock();
+//                changeStatusMutex.lock();
+//                move(9 + waiterId, 0);
+//                clrtoeol();
+//                printw("WAITER %d is serving", waiterId+1);
+//		move(9 + waiterId, x-4);
+//                clrtoeol();
+//                printw("%i%%", progress);
+//                refresh();
+//                changeStatusMutex.unlock();
             }
 
 
@@ -431,6 +452,7 @@ public:
             amIFull[waiterId] = true;
             serveMutex.unlock();
             serveClient = false;
+	    state = 0;
             changeStatusMutex.unlock();
         }
 
@@ -721,8 +743,166 @@ public:
 
 
 
+std::vector<Barman *> barmans;
+std::vector<Client *> clients;
+std::vector<Waiter *> waiters;
+std::array<Glass, NUMOFGLASSES> glasses;
 
 
+
+
+/////////////////////////////////// THREADS FUNCTIONS //////////////////////////////////////////////////////////////////
+
+void runBarman(Barman *b, WINDOW *counterWindow){
+
+	while(b->exitBarman == false){
+		if(b->state == 0){
+                        changeStatusMutex.lock();
+			wmove(counterWindow, 0, 0);
+			wclrtoeol(counterWindow);
+			//wrefresh(counterWindow);
+                        wattron(counterWindow,COLOR_PAIR(1));
+                        mvwprintw(counterWindow, 0, 0, "BARMAN is waiting");
+                        wattroff(counterWindow,COLOR_PAIR(1));
+                        wrefresh(counterWindow);
+                        changeStatusMutex.unlock();
+                }
+		if(b->state == 1){
+			changeStatusMutex.lock();
+			wmove(counterWindow, 0, 0);
+			wclrtoeol(counterWindow);
+                       // wrefresh(counterWindow);
+			wattron(counterWindow,COLOR_PAIR(1));
+    			mvwprintw(counterWindow, 0, 0, "BARMAN is waiting for GLASSES");
+    			wattroff(counterWindow,COLOR_PAIR(1));
+    			wrefresh(counterWindow);
+			changeStatusMutex.unlock();
+		}
+		if(b->state == 2){
+			changeStatusMutex.lock();
+			int progress = b->progress;
+			wmove(counterWindow, 0, 0);
+			wclrtoeol(counterWindow);
+                       // wrefresh(counterWindow);
+			wattron(counterWindow,COLOR_PAIR(1));
+			mvwprintw(counterWindow, 0, 0, "BARMAN is resting");
+		        mvwprintw(counterWindow, 0, x-4, "%i%%", progress);
+                        wattroff(counterWindow,COLOR_PAIR(1));
+                        wrefresh(counterWindow);
+                        changeStatusMutex.unlock();
+		}
+		if(b->state == 3){
+                        changeStatusMutex.lock();
+                        int progress = b->progress;
+			wmove(counterWindow, 0, 0);
+			wclrtoeol(counterWindow);
+                        //wrefresh(counterWindow);
+                        wattron(counterWindow,COLOR_PAIR(1));
+                        mvwprintw(counterWindow, 0, 0, "BARMAN is serving");
+                        mvwprintw(counterWindow, 0, x-4, "%i%%", progress);
+                        wattroff(counterWindow,COLOR_PAIR(1));
+                        wrefresh(counterWindow);
+			changeStatusMutex.unlock();
+                }
+	}
+
+
+
+}
+
+void runWaiter(Waiter *w, WINDOW *tablesWindow){
+	while(w->exitWaiter == false){
+		if(w->state == 0){
+			changeStatusMutex.lock();
+			wmove(tablesWindow, 0 + w->waiterId, 0);
+			wclrtoeol(tablesWindow);
+			wattron(tablesWindow,COLOR_PAIR(1));
+        		mvwprintw(tablesWindow, 0 + w->waiterId, 0, "WAITER %d is ready to serve", w->waiterId+1);
+        		wattroff(tablesWindow,COLOR_PAIR(1));
+        		wrefresh(tablesWindow);
+        		changeStatusMutex.unlock();
+
+		}
+		if(w->state == 1){
+			changeStatusMutex.lock();
+			int progress = w->progress;
+			wmove(tablesWindow, 0 + w->waiterId, 0);
+			wclrtoeol(tablesWindow);
+                        wattron(tablesWindow,COLOR_PAIR(1));
+                        mvwprintw(tablesWindow, 0 + w->waiterId, 0, "WAITER %d is cleaning GLASS %d", w->waiterId+1, w->glassCleaned);
+			mvwprintw(tablesWindow, 0 + w->waiterId, x-4, "%i%%", progress);
+                        wattroff(tablesWindow,COLOR_PAIR(1));
+                        wrefresh(tablesWindow);
+                        changeStatusMutex.unlock();
+		}
+		if(w->state == 2){
+			changeStatusMutex.lock();
+                        int progress = w->progress;
+			wmove(tablesWindow, 0 + w->waiterId, 0);
+			wclrtoeol(tablesWindow);
+                        wattron(tablesWindow,COLOR_PAIR(1));
+                        mvwprintw(tablesWindow, 0 + w->waiterId, 0, "WAITER %d is serving", w->waiterId+1);
+                        mvwprintw(tablesWindow, 0 + w->waiterId, x-4, "%i%%", progress);
+                        wattroff(tablesWindow,COLOR_PAIR(1));
+                        wrefresh(tablesWindow);
+                        changeStatusMutex.unlock();
+
+		}
+	}
+}
+
+void runClient(Client *c, WINDOW *counterWindow, WINDOW *tablesWindow){
+	while(c->exitClient == false){
+		
+	}
+}
+
+
+void run (WINDOW *counterWindow, WINDOW *tablesWindow){
+
+	std::vector<std::thread> v;
+
+	for(auto& barman : barmans){
+		v.push_back(std::thread(runBarman, &(*barman), counterWindow));
+	}
+
+	for(auto& waiter : waiters){
+		v.push_back(std::thread(runWaiter, &(*waiter), tablesWindow));
+	}
+
+	for(auto& client : clients){
+		v.push_back(std::thread(runClient, &(*client), counterWindow, tablesWindow));
+	}
+
+	bool end = false;
+
+	while(!end){
+		int c = getch();
+		if(c == 27){
+			for(auto& barman : barmans){
+				barman->exitBarman = true;
+			}
+			for(auto& waiter : waiters){
+				waiter->exitWaiter = true;
+			}
+			for(auto& client : clients){
+				client->exitClient = true;
+			}
+
+			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+			end = true;
+		}
+	}
+	for(auto &t : v){
+		t.join();
+	}
+	return;
+}
+
+
+
+
+/////////////////////////////////// THREADS FUNCTIONS END //////////////////////////////////////////////////////////////
 
 
 
@@ -730,12 +910,8 @@ public:
 
 /////////////////////////////////// MAIN ///////////////////////////////////////////////////////////////////////////////
 
+
 int main() {
-
-    std::vector<Client *> clients;
-    std::vector<Waiter *> waiters;
-    std::array<Glass, NUMOFGLASSES> glasses;
-
 
     counterStatus.resize(COUNTERCAPACITY + 1);
     for(int i = 0; i < counterStatus.size(); i++)
@@ -763,6 +939,7 @@ int main() {
 
 
     Barman *b = new Barman(glasses);
+    barmans.push_back(b);
 
     for (auto i=0; i<NUMOFWAITERS; i++){
         Waiter *w = new Waiter(i, *b);
@@ -775,12 +952,11 @@ int main() {
         clients.push_back(c);
     }
 
-    
+
     initscr();
     raw();
-////    noecho;
-////    nodelay(stdscr, TRUE);
-////    cbreak;
+    noecho();
+    cbreak();
     curs_set(0);
     use_default_colors();
     start_color();
@@ -788,65 +964,123 @@ int main() {
     init_pair(1, COLOR_WHITE, COLOR_BLUE);
     init_pair(2, COLOR_BLACK, COLOR_YELLOW);
 
+    getmaxyx(stdscr, h, w);
+    x = w/2;
+
+    wbkgd(stdscr, COLOR_PAIR(1));
+
+
+    WINDOW * counterWindow = newwin(5, x+1, 3, 0);
+    wbkgd(counterWindow, COLOR_PAIR(1));
+    wattron(counterWindow, COLOR_PAIR(2));
+//    wborder(counterWindow, 35, 35, 35, 35, 35, 35, 35, 35);
+    refresh();
+    wrefresh(counterWindow);
+
+    WINDOW * kitchenWindow = newwin(7, x, 2, x+1);
+    wbkgd(kitchenWindow, COLOR_PAIR(1));
+    wattron(kitchenWindow, COLOR_PAIR(2));
+    wborder(kitchenWindow, 35, 35, 35, 35, 35, 35, 35, 35);
+    refresh();
+    wrefresh(kitchenWindow);
+
+
+    WINDOW * tablesWindow = newwin(10, x+1, 9, 0);
+    wbkgd(tablesWindow, COLOR_PAIR(1));
+    wattron(tablesWindow, COLOR_PAIR(2));
+//    wborder(tablesWindow, 35, 35, 35, 35, 35, 35, 35, 35);
+    refresh();
+    wrefresh(tablesWindow);
+
+    WINDOW * toiletWindow = newwin(12, x, 8, x+1);
+    wbkgd(toiletWindow, COLOR_PAIR(1));
+    wattron(toiletWindow, COLOR_PAIR(2));
+    wborder(toiletWindow, 35, 35, 35, 35, 35, 35, 35, 35);
+    refresh();
+    wrefresh(toiletWindow);
+
+    WINDOW * glassesWindow = newwin(4, x+1, 20, 0);
+    wbkgd(glassesWindow, COLOR_PAIR(1));
+    wattron(glassesWindow, COLOR_PAIR(2));
+   // wborder(glassesWindow, 35, 0, 35, 35, 35, 35, 35, 35);
+    refresh();
+    wrefresh(glassesWindow);
+
+    WINDOW * suppliesWindow = newwin(4, x, 20, x);
+    wbkgd(suppliesWindow, COLOR_PAIR(1));
+    wattron(suppliesWindow, COLOR_PAIR(2));
+  //  wborder(suppliesWindow, 0, 35, 35, 35, 35, 35, 35, 35);
+    refresh();
+    wrefresh(suppliesWindow);
+
+
+
     move(0, 0);
     clrtoeol();
     attron(COLOR_PAIR(2));
-    printw("---------------------- RESTAURANT -----------------------");
+    printw("---------------------------------- RESTAURANT ----------------------------------");
+
 
     move(2, 0);
     clrtoeol();
     attron(COLOR_PAIR(2));
-    printw("####################### COUNTER #########################");
+    printw("############### COUNTER ################################ KITCHEN #################");
+
+
 
     move(8, 0);
     clrtoeol();
     attron(COLOR_PAIR(2));
-    printw("####################### TABLES ###########################");
+    printw("################ TABLES ################################# TOILET #################");
+
+
+    wattron(tablesWindow,COLOR_PAIR(1));
+    mvwprintw(tablesWindow, 5, 0, "Table[1]");
+    wrefresh(tablesWindow);
+
+    wattron(tablesWindow,COLOR_PAIR(1));
+    mvwprintw(tablesWindow, 6, 0, "Table[2]");
+    wrefresh(glassesWindow);
+
+    wattron(tablesWindow,COLOR_PAIR(1));
+    mvwprintw(tablesWindow, 7, 0, "Table[3]");
+    wrefresh(tablesWindow);
+
+    wattron(tablesWindow,COLOR_PAIR(1));
+    mvwprintw(tablesWindow, 8, 0, "Table[4]");
+    wrefresh(tablesWindow);
+
+    wattron(tablesWindow,COLOR_PAIR(1));
+    mvwprintw(tablesWindow, 9, 0, "Table[5]");
+    wrefresh(tablesWindow);
+
+
 
     move(19, 0);
     clrtoeol();
     attron(COLOR_PAIR(2));
-    printw("###################### RESOURCES #########################");
+    printw("#################################### RESOURCES #################################");
     attroff(COLOR_PAIR(2));
 
-    attron(COLOR_PAIR(1));
+	
+    wattron(glassesWindow,COLOR_PAIR(1));
+    mvwprintw(glassesWindow, 0, 0, "GLASS 1 is clear");
+    wrefresh(glassesWindow);
 
-    move(20, 0);
-    clrtoeol();
-    printw("GLASS 1 is clear");
+    wattron(glassesWindow,COLOR_PAIR(1));
+    mvwprintw(glassesWindow, 1, 0, "GLASS 2 is clear");
+    wrefresh(glassesWindow);
 
-    move(21, 0);
-    clrtoeol();
-    printw("GLASS 2 is clear");
-
-    move(22, 0);
-    clrtoeol();
-    printw("GLASS 3 is clear");
+    wattron(glassesWindow,COLOR_PAIR(1));
+    mvwprintw(glassesWindow, 2, 0, "GLASS 3 is clear");
+    wrefresh(glassesWindow);
 
 
-    
-    refresh();
-    getch();
+    std::thread create(run, counterWindow, tablesWindow);
+
+    create.join();
+
     endwin();
-
-    b->barmanThread.join();
-
-    waiters[0]->waiterThread.join();
-    waiters[1]->waiterThread.join();
-    waiters[2]->waiterThread.join();
-
-    clients[0]->clientThread.join();
-    clients[1]->clientThread.join();
-    clients[2]->clientThread.join();
-    clients[3]->clientThread.join();
-    clients[4]->clientThread.join();
-    clients[5]->clientThread.join();
-    clients[6]->clientThread.join();
-    clients[7]->clientThread.join();
-    clients[8]->clientThread.join();
-    clients[9]->clientThread.join();
-
-
 
 
 //    std::this_thread::sleep_for(std::chrono::seconds(1));

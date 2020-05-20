@@ -28,6 +28,12 @@ std::mutex counterQueue[COUNTERCAPACITY]; //kolejka do obługi pijakow
 
 std::vector<int> counterStatus; //vector do wyświetlania statusu pijaka ([0]-aktualnie obsługiwany)
 
+//std::vector<Barman *> barmans;
+//std::vector<Client *> clients;
+//std::vector<Waiter *> waiters;
+//std::array<Glass, NUMOFGLASSES> glasses;
+
+
 std::vector<bool> amIFull;
 
 bool stop = false;
@@ -35,6 +41,12 @@ int drinkingDrunkard;
 bool amIDrunk = false;
 
 bool isCounterTaken = false;
+
+int h;
+int w;
+int x;
+int y;
+const int max_len = 50;
 
 
 
