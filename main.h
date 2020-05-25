@@ -16,22 +16,23 @@
 #define NUMOFCLIENTS 10
 
 std::mutex changeStatusMutex; //mutex do zmiany statusu
+std::mutex changeScreenMutex;
+
+//std::mutex changeCounterMutex;
+//std::mutex changeTablesMutex;
+//std::mutex changeResourcesMutex;
 
 std::mutex restaurant[RESTAURANTCAPACITY]; //miejsca przy stolikach jako mutexy
 std::mutex restaurantQueue[RESTAURANTCAPACITY]; //kolejka do obsługi klientów
 
-std::vector<int> restaurantStatus; //wektor do wyswietlania statusu klienta
+//std::vector<int> restaurantStatus; //wektor do wyswietlania statusu klienta
 
 std::mutex counter[COUNTERCAPACITY]; //miejsca przy kontuarze jako mutexy
 std::mutex servedDrunkard; //aktualnie obsługiwany pijak
 std::mutex counterQueue[COUNTERCAPACITY]; //kolejka do obługi pijakow
 
-std::vector<int> counterStatus; //vector do wyświetlania statusu pijaka ([0]-aktualnie obsługiwany)
+//std::vector<int> counterStatus; //vector do wyświetlania statusu pijaka ([0]-aktualnie obsługiwany)
 
-//std::vector<Barman *> barmans;
-//std::vector<Client *> clients;
-//std::vector<Waiter *> waiters;
-//std::array<Glass, NUMOFGLASSES> glasses;
 
 
 std::vector<bool> amIFull;
