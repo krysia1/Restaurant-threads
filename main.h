@@ -10,17 +10,16 @@
 
 #define COUNTERCAPACITY 3
 #define RESTAURANTCAPACITY 5
+#define QUEUECAPACITY 5
+#define TOILETCAPACITY 2
 
 #define NUMOFGLASSES 3
 #define NUMOFWAITERS 3
 #define NUMOFCLIENTS 10
+#define NUMOFTOILETS 2
 
 std::mutex changeStatusMutex; //mutex do zmiany statusu
-std::mutex changeScreenMutex;
-
-//std::mutex changeCounterMutex;
-//std::mutex changeTablesMutex;
-//std::mutex changeResourcesMutex;
+std::mutex changeScreenMutex; //mutex do zmian na ekranie
 
 std::mutex restaurant[RESTAURANTCAPACITY]; //miejsca przy stolikach jako mutexy
 std::mutex restaurantQueue[RESTAURANTCAPACITY]; //kolejka do obsługi klientów
@@ -30,6 +29,9 @@ std::mutex restaurantQueue[RESTAURANTCAPACITY]; //kolejka do obsługi klientów
 std::mutex counter[COUNTERCAPACITY]; //miejsca przy kontuarze jako mutexy
 std::mutex servedDrunkard; //aktualnie obsługiwany pijak
 std::mutex counterQueue[COUNTERCAPACITY]; //kolejka do obługi pijakow
+
+std::mutex toiletOneQueue[QUEUECAPACITY];
+std::mutex toiletTwoQueue[QUEUECAPACITY];
 
 //std::vector<int> counterStatus; //vector do wyświetlania statusu pijaka ([0]-aktualnie obsługiwany)
 

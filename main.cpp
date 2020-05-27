@@ -7,6 +7,8 @@
 #include <random>
 #include <thread>
 #include <mutex>
+#include <atomic>
+#include <condition_variable>
 //#include <vector>
 //#include <iomanip>
 #include <memory>
@@ -18,7 +20,32 @@
 
 std::vector<int> counterStatus;
 std::vector<int> restaurantStatus;
+std::vector<int> queueOneStatus;
+std::vector<int> queueTwoStatus;
+
+
 bool end = false;
+
+/////////////////////////////////// CLASS TOILET //////////////////////////////////////////////////////////////////////
+
+class Toilet{
+public:
+	int toiletId;
+	int queue = 0;
+
+	bool occupied = false;
+	bool leftOccupied = false;
+	bool rightOccupied = false;
+
+	std::mutex leftCabinMutex;
+	std::mutex rightCabinMutex;
+
+	std::mutex toiletMutex;
+
+};
+
+/////////////////////////////////// CLASS TOILET END //////////////////////////////////////////////////////////////////
+
 
 /////////////////////////////////// CLASS GLASS ///////////////////////////////////////////////////////////////////////
 
@@ -32,7 +59,6 @@ public:
 
 };
 /////////////////////////////////// CLASS GLASS END/////////////////////////////////////////////////////////////////////
-
 
 
 /////////////////////////////////// CLASS BARMAN ///////////////////////////////////////////////////////////////////////
@@ -532,23 +558,19 @@ public:
     std::thread clientThread;
     bool exitClient = false;
     std::vector<Waiter *> &waiters;
+    std::array<Toilet, NUMOFTOILETS> &toilets;
 
+    int progressToilet;
 
-
-    Client(int const clientId, std::vector<Waiter *> &waiters )
-    : clientId(clientId), waiters(waiters), clientThread(&Client::visitRestaurant, this){}
+    Client(int const clientId, std::vector<Waiter *> &waiters, std::array<Toilet, NUMOFTOILETS> &toilets)
+    : clientId(clientId), waiters(waiters), toilets(toilets), clientThread(&Client::visitRestaurant, this){}
 
 
 
 
     void takeASeat(){
-//        std::cout<<clientId<<"Client"<<std::endl;
 
         int pointer = RESTAURANTCAPACITY - 1;
-
-//        for (int i = 0; i < NUMOFWAITERS; i++) {
-//            std::cout<<waiters[i]->serveClient<<std::endl;
-//        }
 
         while(!exitClient) {
 
@@ -556,13 +578,9 @@ public:
                 changeStatusMutex.lock();
                 restaurantStatus[pointer] = clientId;
                 changeStatusMutex.unlock();
-//                std::cout<<clientId<<"LOLOLOLO"<<std::endl;
-//                std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                 break;
 
             } else {
- //               std::cout<<clientId<<"LEEEEEEE"<<std::endl;
-//                std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                 std::this_thread::sleep_for(std::chrono::milliseconds(200));
                 continue;
             }
@@ -639,7 +657,232 @@ public:
 
 
 
-    void useToilet(){};
+    void useToilet(){
+
+	    int smallestQueue;
+            int myToilet;
+            int pointer = QUEUECAPACITY - 1;
+
+
+	    while(!exitClient){
+		    for(int i = 0; i < NUMOFTOILETS - 1; i++){
+			    if(toilets[i].queue <= toilets[i+1].queue){
+				   // if(toilets[i].queue <= smallestQueue){
+					    smallestQueue = toilets[i].queue;
+					    myToilet = i;
+					    //pointer = i * QUEUECAPACITY + QUEUECAPACITY - 1;
+				    //}
+			    } else {
+				    //if(toilets[i+1].queue <= smallestQueue){
+                                            smallestQueue = toilets[i+1].queue;
+					    myToilet = i+1;
+                                            //pointer = (i+1) * QUEUECAPACITY + QUEUECAPACITY - 1;
+                                   //}
+			    }	    
+		    }
+
+		    if(myToilet == 0){
+			    if(toiletOneQueue[pointer].try_lock()){
+				    changeStatusMutex.lock();
+                            	    queueOneStatus[pointer] = clientId;
+                            	    toilets[myToilet].queue++;
+                            	    changeStatusMutex.unlock();
+                            	    break;
+			    } else {
+				     std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                	             continue;
+			    }
+		    } else {
+			    if(toiletTwoQueue[pointer].try_lock()){
+                                    changeStatusMutex.lock();
+                                    queueTwoStatus[pointer] = clientId;
+                                    toilets[myToilet].queue++;
+                                    changeStatusMutex.unlock();
+                                    break;
+                            } else {
+                                     std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                                     continue;
+                            }
+
+		    }
+
+
+
+		   // if(toiletQueue[myToilet * QUEUECAPACITY + pointer].try_lock()){
+			//    changeStatusMutex.lock();
+			 //   queueStatus[myToilet * QUEUECAPACITY + pointer] = clientId;
+			   // toilets[myToilet].queue++;
+		//	    changeStatusMutex.unlock();
+		//	    break;
+		  //  } else {
+		//	    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                //	    continue;
+		  //  }
+		    
+	    }
+
+
+
+
+	    while(!exitClient){
+
+		   if(pointer > TOILETCAPACITY){
+
+			   if(myToilet == 0){
+			   	if (toiletOneQueue[pointer - 1].try_lock()) {
+				   changeStatusMutex.lock();
+				   queueOneStatus[pointer] = -1;
+				   queueOneStatus[pointer - 1] = clientId;
+				   changeStatusMutex.unlock();
+				   toiletOneQueue[pointer].unlock();
+				   pointer--;
+			   	} else {
+				   std::this_thread::sleep_for(std::chrono::milliseconds(200));
+			   	}
+			   } else {
+				if (toiletTwoQueue[pointer - 1].try_lock()) {
+                                   changeStatusMutex.lock();
+                                   queueTwoStatus[pointer] = -1;
+                                   queueTwoStatus[pointer - 1] = clientId;
+                                   changeStatusMutex.unlock();
+                                   toiletTwoQueue[pointer].unlock();
+                                   pointer--;
+                                } else {
+                                   std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                                }
+			   }
+
+		   } else {
+
+			   //if(toilets[myToilet].leftOccupied == false){
+			   if(toilets[myToilet].leftCabinMutex.try_lock()){
+				   //toilets[myToilet].leftCabinMutex.lock();
+				   toilets[myToilet].leftOccupied == true;
+
+				   if(myToilet == 0){
+
+				   	changeStatusMutex.lock();
+				   	toiletOneQueue[0].lock();
+				   	queueOneStatus[0] = clientId;
+				   	queueOneStatus[pointer] = -1;
+				   	toiletOneQueue[pointer].unlock();
+				   	changeStatusMutex.unlock();
+
+				   	int part = std::uniform_int_distribution<int>(55, 95)(rng);
+				   	for (auto i = 1; i <= part; i++){
+					   double p = (double) i / (double) part; 
+				   	   progressToilet = (int) std::round(p * 100.0);
+                                           std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                                   	}
+
+				   	toilets[myToilet].leftOccupied == false;
+				   	toilets[myToilet].leftCabinMutex.unlock();
+
+				   	changeStatusMutex.lock();
+				   	toiletOneQueue[0].unlock();
+                                   	queueOneStatus[0] = -1;
+				   	toilets[myToilet].queue--;
+				   	changeStatusMutex.unlock();
+			   	   	break;
+
+				   } else {
+
+				   	changeStatusMutex.lock();
+                                   	toiletTwoQueue[0].lock();
+                                   	queueTwoStatus[0] = clientId;
+                                   	queueTwoStatus[pointer] = -1;
+                                   	toiletTwoQueue[pointer].unlock();
+                                   	changeStatusMutex.unlock();
+
+                                   	int part = std::uniform_int_distribution<int>(55, 95)(rng);
+                                   	for (auto i = 1; i <= part; i++){
+                                           double p = (double) i / (double) part;
+                                           progressToilet = (int) std::round(p * 100.0);
+                                           std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                                   	}
+
+                                   	toilets[myToilet].leftOccupied == false;
+                                   	toilets[myToilet].leftCabinMutex.unlock();
+
+
+                                   	changeStatusMutex.lock();
+                                   	toiletTwoQueue[0].unlock();
+                                   	queueTwoStatus[0] = -1;
+                                   	toilets[myToilet].queue--;
+                                   	changeStatusMutex.unlock();
+                                   	break;
+				   }
+			  
+			   
+			   } else  if(toilets[myToilet].rightCabinMutex.try_lock()){
+				   //if(toilets[myToilet].rightOccupied == false){
+				   
+				   //toilets[myToilet].rightCabinMutex.lock();
+                                   toilets[myToilet].rightOccupied == true;
+
+                                   if(myToilet == 0){
+
+                                   	changeStatusMutex.lock();
+                                   	toiletOneQueue[1].lock();
+                                   	queueOneStatus[1] = clientId;
+                                   	queueOneStatus[pointer] = -1;
+                                   	toiletOneQueue[pointer].unlock();
+                                   	changeStatusMutex.unlock();
+
+                                   	int part = std::uniform_int_distribution<int>(55, 95)(rng);
+                                   	for (auto i = 1; i <= part; i++){
+                                           double p = (double) i / (double) part;
+                                           progressToilet = (int) std::round(p * 100.0);
+                                           std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                                   	}
+
+                                   	toilets[myToilet].rightOccupied == false;
+                                   	toilets[myToilet].rightCabinMutex.unlock();
+
+                                   	changeStatusMutex.lock();
+                                   	toiletOneQueue[1].unlock();
+                                   	queueOneStatus[1] = -1;
+                                   	toilets[myToilet].queue--;
+                                   	changeStatusMutex.unlock();
+                                   	break;
+
+                                   } else {
+				   
+			           	changeStatusMutex.lock();
+                                   	toiletTwoQueue[1].lock();
+                                   	queueTwoStatus[1] = clientId;
+                                   	queueTwoStatus[pointer] = -1;
+                                   	toiletTwoQueue[pointer].unlock();
+                                   	changeStatusMutex.unlock();
+
+                                   	int part = std::uniform_int_distribution<int>(55, 95)(rng);
+                                   	for (auto i = 1; i <= part; i++){
+                                           double p = (double) i / (double) part;
+                                           progressToilet = (int) std::round(p * 100.0);
+                                           std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                                  	}
+
+                                   	toilets[myToilet].rightOccupied == false;
+                                   	toilets[myToilet].rightCabinMutex.unlock();
+
+                                   	changeStatusMutex.lock();
+                                   	toiletTwoQueue[1].unlock();
+                                   	queueTwoStatus[1] = -1;
+                                   	toilets[myToilet].queue--;
+                                   	changeStatusMutex.unlock();
+                                   	break;
+				   }
+
+
+
+			   } else {
+                        	   std::this_thread::sleep_for(std::chrono::milliseconds(200));
+			   }
+			   
+                }
+		 
+	    }
+    };
 
 
 
@@ -760,6 +1003,7 @@ public:
 
                             seatByTheCounter();
                             counter[i].unlock();
+			    useToilet();
                             break;
                         }
                     }
@@ -774,11 +1018,13 @@ public:
 
                          takeASeat();
                          restaurant[i].unlock();
+			 useToilet();
                          break;
                      }
                  }
              }
 
+	     
              leave();
              std::this_thread::sleep_for(std::chrono::seconds(3));
         }
@@ -797,7 +1043,7 @@ std::vector<Waiter *> waiters;
 //std::vector<std::unique_ptr<Waiter>> waiters;
 
 std::array<Glass, NUMOFGLASSES> glasses;
-
+std::array<Toilet, NUMOFTOILETS> toilets;
 
 
 
@@ -919,7 +1165,7 @@ void runClient(Client *c, WINDOW *counterWindow, WINDOW *tablesWindow){
 	}
 }
 
-void runSeats(WINDOW *counterWindow, WINDOW *tablesWindow){
+void runSeats(WINDOW *counterWindow, WINDOW *tablesWindow, WINDOW *toiletWindow, WINDOW *queueOneWindow, WINDOW *queueTwoWindow){
 	while(!end){
 		for(int i=1; i<=COUNTERCAPACITY; i++){
 			changeScreenMutex.lock();
@@ -952,6 +1198,160 @@ void runSeats(WINDOW *counterWindow, WINDOW *tablesWindow){
                         }
                         changeScreenMutex.unlock();
                 }
+
+		for(int i = 0; i < QUEUECAPACITY; i++){
+			changeScreenMutex.lock();
+			if(queueOneStatus[i] == -1){
+				if(i<TOILETCAPACITY){
+					wmove(toiletWindow, 2+i, 12);
+					wclrtoeol(toiletWindow);
+       					wattron(toiletWindow, COLOR_PAIR(1));
+	                                mvwprintw(toiletWindow, 2+i, 12, "empty");
+				} else {
+					wmove(queueOneWindow, -2+i, 11);
+                                        wclrtoeol(queueOneWindow);
+                                        wattron(queueOneWindow, COLOR_PAIR(1));
+                                        mvwprintw(queueOneWindow, -2+i, 11, "empty");
+
+				}
+			} else {
+				if(i<TOILETCAPACITY){
+                                         wmove(toiletWindow, 2+i, 12);
+                                         wclrtoeol(toiletWindow);
+                                         wattron(toiletWindow, COLOR_PAIR(1));
+                                         mvwprintw(toiletWindow, 2+i, 12, "CLIENT %d", queueOneStatus[i]);
+					 mvwprintw(toiletWindow, 2+i, 30, "%i%%", clients[queueOneStatus[i] - 1]->progressToilet);
+                                 } else {
+                                         wmove(queueOneWindow, -2+i, 11);
+                                         wclrtoeol(queueOneWindow);
+                                         wattron(queueOneWindow, COLOR_PAIR(1));
+                                         mvwprintw(queueOneWindow, -2+i, 11, "CLIENT %d", queueOneStatus[i]);
+
+                                 }
+
+			}
+			wrefresh(toiletWindow);
+			wrefresh(queueOneWindow);
+			changeScreenMutex.unlock();
+		}
+
+		for(int i = 0; i < QUEUECAPACITY; i++){
+                         changeScreenMutex.lock();
+                         if(queueTwoStatus[i] == -1){
+                                 if(i<TOILETCAPACITY){
+                                         wmove(toiletWindow, 5+i, 12);
+                                         wclrtoeol(toiletWindow);
+                                         wattron(toiletWindow, COLOR_PAIR(1));
+                                         mvwprintw(toiletWindow, 5+i, 12, "empty");
+                                 } else {
+                                         wmove(queueTwoWindow, -2+i, 11);
+                                         wclrtoeol(queueTwoWindow);
+                                         wattron(queueTwoWindow, COLOR_PAIR(1));
+                                         mvwprintw(queueTwoWindow, -2+i, 11, "empty");
+
+                                 }
+                         } else {
+                                 if(i<TOILETCAPACITY){
+                                          wmove(toiletWindow, 5+i, 12);
+                                          wclrtoeol(toiletWindow);
+                                          wattron(toiletWindow, COLOR_PAIR(1));
+                                          mvwprintw(toiletWindow, 5+i, 12, "CLIENT %d", queueTwoStatus[i]);
+                                          mvwprintw(toiletWindow, 5+i, 30, "%i%%", clients[queueTwoStatus[i] - 1]->progressToilet);
+                                  } else {
+                                          wmove(queueTwoWindow, -2+i, 11);
+                                          wclrtoeol(queueTwoWindow);
+                                          wattron(queueTwoWindow, COLOR_PAIR(1));
+                                          mvwprintw(queueTwoWindow, -2+i, 11, "CLIENT %d", queueTwoStatus[i]);
+
+                                  }
+
+                         }
+                         wrefresh(toiletWindow);
+			 wrefresh(queueTwoWindow);
+                         changeScreenMutex.unlock();
+                 }
+
+
+//			switch(i)
+//			{
+//				case(0):
+//					if(queueStatus[i] == -1){
+//						wmove(toiletWindow, 2, 12);
+//                                		wclrtoeol(toiletWindow);
+//                                		wattron(toiletWindow, COLOR_PAIR(1));
+//                                		mvwprintw(toiletWindow, 2, 12, "empty");
+//                        		}else{
+//                        			wmove(toiletWindow, 2, 12);
+//                        			wclrtoeol(toiletWindow);
+//                        			wattron(toiletWindow, COLOR_PAIR(1));
+//                        			mvwprintw(toiletWindow, 2, 12, "CLIENT %d", queueStatus[i]);
+//						mvwprintw(toiletWindow, 2, 30, "%i%%", clients[queueStatus[i] - 1]->progressToilet);
+//                        		}
+//					break;
+//
+//				case(1):
+//                                        if(queueStatus[i] == -1){
+//                                                wmove(toiletWindow, 3, 12);
+//                                                wclrtoeol(toiletWindow);
+//                                                wattron(toiletWindow, COLOR_PAIR(1));
+//                                                mvwprintw(toiletWindow, 3, 12, "empty");
+//                                        }else{
+//                                                wmove(toiletWindow, 3, 12);
+//                                                wclrtoeol(toiletWindow);
+//                                                wattron(toiletWindow, COLOR_PAIR(1));
+//                                                mvwprintw(toiletWindow, 3, 12, "CLIENT %d", queueStatus[i]);
+//                                                mvwprintw(toiletWindow, 3, 30, "%i%%", clients[queueStatus[i] - 1]->progressToilet);
+//                                        }
+//                                        break;
+//
+//				case(5):
+//                                        if(queueStatus[i] == -1){
+//                                                wmove(toiletWindow, 5, 12);
+//                                                wclrtoeol(toiletWindow);
+//                                                wattron(toiletWindow, COLOR_PAIR(1));
+//                                                mvwprintw(toiletWindow, 5, 12, "empty");
+//                                        }else{
+//                                                wmove(toiletWindow, 5, 12);
+//                                                wclrtoeol(toiletWindow);
+//                                                wattron(toiletWindow, COLOR_PAIR(1));
+//                                                mvwprintw(toiletWindow, 5, 12, "CLIENT %d", queueStatus[i]);
+//                                                mvwprintw(toiletWindow, 5, 30, "%i%%", clients[queueStatus[i] - 1]->progressToilet);
+//                                        }
+//                                        break;
+//
+//				case(6):
+//                                        if(queueStatus[i] == -1){
+//                                                wmove(toiletWindow, 6, 12);
+//                                                wclrtoeol(toiletWindow);
+//                                                wattron(toiletWindow, COLOR_PAIR(1));
+//                                                mvwprintw(toiletWindow, 6, 12, "empty");
+//                                        }else{
+///                                                wmove(toiletWindow, 6, 12);
+//                                                wclrtoeol(toiletWindow);
+//                                                wattron(toiletWindow, COLOR_PAIR(1));
+//                                                mvwprintw(toiletWindow, 6, 12, "CLIENT %d", queueStatus[i]);
+//                                                mvwprintw(toiletWindow, 6, 30, "%i%%", clients[queueStatus[i] - 1]->progressToilet);
+//                                        }
+//                                        break;
+//
+//				default:
+//					wmove(toiletWindow, 7, 12);
+//                                        wclrtoeol(toiletWindow);
+//                                        wattron(toiletWindow, COLOR_PAIR(1));
+//                                        mvwprintw(toiletWindow, 7, 12, "ERROR");
+//                                        mvwprintw(toiletWindow, 6, 30, "%i%%", clients[queueStatus[i] - 1]->progressToilet);
+//
+//
+//
+//
+//			}
+//			wrefresh(toiletWindow);
+//			changeScreenMutex.unlock();
+//
+//
+//		}
+
+			
 
 	}
 
@@ -1029,6 +1429,20 @@ int main() {
         restaurantStatus[i] = -1;
     }
 
+    queueOneStatus.resize(QUEUECAPACITY);
+    for(int i = 0; i < queueOneStatus.size(); i++)
+    {
+	    queueOneStatus[i] = -1;
+    }
+
+    queueTwoStatus.resize(QUEUECAPACITY);
+    for(int i = 0; i < queueTwoStatus.size(); i++)
+    {
+            queueTwoStatus[i] = -1;
+    }
+
+
+
     amIFull.resize(NUMOFWAITERS);
     for(int i = 0; i < amIFull.size(); i++)
     {
@@ -1037,8 +1451,12 @@ int main() {
 
 
 
-    for (int i=0; i < NUMOFGLASSES; i++){
+    for(int i = 0; i < NUMOFGLASSES; i++){
         glasses.at(i).glassId = i+1;
+    }
+
+    for(int i = 0; i < NUMOFTOILETS; i++){
+	    toilets.at(i).toiletId = i+1;
     }
 
 
@@ -1058,7 +1476,7 @@ int main() {
 
 
     for (auto i=0; i<NUMOFCLIENTS; i++){
-        Client *c = new Client(i + 1, waiters);
+        Client *c = new Client(i + 1, waiters, toilets);
         clients.push_back(c);
 
 //	clients.push_back(std::make_unique<Client>(i+1));
@@ -1075,6 +1493,8 @@ int main() {
 
     init_pair(1, COLOR_WHITE, COLOR_BLUE);
     init_pair(2, COLOR_BLACK, COLOR_YELLOW);
+    init_pair(3, COLOR_YELLOW, COLOR_BLUE);
+    init_pair(4, COLOR_CYAN, COLOR_BLUE);
 
     getmaxyx(stdscr, h, w);
     x = w/2;
@@ -1130,6 +1550,16 @@ int main() {
     refresh();
     wrefresh(suppliesWindow);
 
+    WINDOW * queueOneWindow = newwin(3, 19, 16, x+2);
+    wbkgd(queueOneWindow, COLOR_PAIR(1));
+    refresh();
+    wrefresh(queueOneWindow);   
+
+
+    WINDOW * queueTwoWindow = newwin(3, 19, 16, x+20);
+    wbkgd(queueTwoWindow, COLOR_PAIR(1));
+    refresh();
+    wrefresh(queueTwoWindow);
 
 
     move(0, 0);
@@ -1144,45 +1574,77 @@ int main() {
     printw("############### COUNTER ############################## KITCHEN #################");
     attroff(COLOR_PAIR(2));
 
-    wattron(counterWindow,COLOR_PAIR(1));
+    wattron(counterWindow,COLOR_PAIR(3));
     mvwprintw(counterWindow, 2, 0, "Seat[1]");
 //    wrefresh(counterWindow);
 
-    wattron(counterWindow,COLOR_PAIR(1));
+    wattron(counterWindow,COLOR_PAIR(3));
     mvwprintw(counterWindow, 3, 0, "Seat[2]");
 //    wrefresh(counterWindow);
 
-    wattron(counterWindow,COLOR_PAIR(1));
+    wattron(counterWindow,COLOR_PAIR(3));
     mvwprintw(counterWindow, 4, 0, "Seat[3]");
     wrefresh(counterWindow);
-    wattroff(counterWindow,COLOR_PAIR(1));
+    wattroff(counterWindow,COLOR_PAIR(3));
 
     move(8, 0);
     clrtoeol();
     attron(COLOR_PAIR(2));
-    printw("################ TABLES ############################### TOILET #################");
+    printw("################ TABLES ############################### TOILETS ################");
     attroff(COLOR_PAIR(2));
 
-    wattron(tablesWindow,COLOR_PAIR(1));
+    wattron(tablesWindow,COLOR_PAIR(3));
     mvwprintw(tablesWindow, 5, 0, "Table[1]");
 //    wrefresh(tablesWindow);
 
-    wattron(tablesWindow,COLOR_PAIR(1));
+    wattron(tablesWindow,COLOR_PAIR(3));
     mvwprintw(tablesWindow, 6, 0, "Table[2]");
 //    wrefresh(glassesWindow);
 
-    wattron(tablesWindow,COLOR_PAIR(1));
+    wattron(tablesWindow,COLOR_PAIR(3));
     mvwprintw(tablesWindow, 7, 0, "Table[3]");
 //    wrefresh(tablesWindow);
 
-    wattron(tablesWindow,COLOR_PAIR(1));
+    wattron(tablesWindow,COLOR_PAIR(3));
     mvwprintw(tablesWindow, 8, 0, "Table[4]");
 //    wrefresh(tablesWindow);
 
-    wattron(tablesWindow,COLOR_PAIR(1));
+    wattron(tablesWindow,COLOR_PAIR(3));
     mvwprintw(tablesWindow, 9, 0, "Table[5]");
     wrefresh(tablesWindow);
-    wattroff(tablesWindow,COLOR_PAIR(1));
+    wattroff(tablesWindow,COLOR_PAIR(3));
+
+    wattron(toiletWindow, COLOR_PAIR(1));
+    mvwprintw(toiletWindow, 1, 5, "TOILET 1");
+   //mvwprintw(toiletWindow, 1, 25, "TOILET 2");
+    mvwprintw(toiletWindow, 4, 5, "TOILET 2");
+    wattroff(toiletWindow, COLOR_PAIR(1));
+
+    wattron(toiletWindow, COLOR_PAIR(4));
+   // mvwprintw(toiletWindow, 4, 5, "TOILET 2");
+    mvwprintw(toiletWindow, 5, 1, "Cabin[1]");
+    mvwprintw(toiletWindow, 6, 1, "Cabin[2]");
+    mvwprintw(toiletWindow, 8, 21, "Queue[1]");
+    mvwprintw(toiletWindow, 9, 21, "Queue[2]");
+    mvwprintw(toiletWindow, 10, 21, "Queue[3]");
+
+    wattroff(toiletWindow, COLOR_PAIR(4));
+
+    wattron(toiletWindow, COLOR_PAIR(3));
+    mvwprintw(toiletWindow, 2, 1, "Cabin[1]");
+    mvwprintw(toiletWindow, 3, 1, "Cabin[2]");
+    mvwprintw(toiletWindow, 8, 1, "Queue[1]");
+    mvwprintw(toiletWindow, 9, 1, "Queue[2]");
+    mvwprintw(toiletWindow, 10, 1, "Queue[3]");
+
+    //mvwprintw(toiletWindow, 5, 1, "Cabin[1]");
+    //mvwprintw(toiletWindow, 6, 1, "Cabin[2]");
+    //mvwprintw(toiletWindow, 8, 21, "Queue[1]");
+    //mvwprintw(toiletWindow, 9, 21, "Queue[2]");
+    //mvwprintw(toiletWindow, 10, 21, "Queue[3]");
+
+    wrefresh(toiletWindow);
+    wattroff(toiletWindow, COLOR_PAIR(3));
 
 
 
@@ -1213,7 +1675,7 @@ int main() {
 //    changeResourcesMutex.unlock();
 
     std::thread create(run, counterWindow, tablesWindow);
-    std::thread seats(runSeats, counterWindow, tablesWindow);
+    std::thread seats(runSeats, counterWindow, tablesWindow, toiletWindow, queueOneWindow, queueTwoWindow);
 
     create.join();
     seats.join();
